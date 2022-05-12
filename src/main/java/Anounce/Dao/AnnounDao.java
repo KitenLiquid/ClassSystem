@@ -1,4 +1,4 @@
-package Index.Dao;
+package Anounce.Dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

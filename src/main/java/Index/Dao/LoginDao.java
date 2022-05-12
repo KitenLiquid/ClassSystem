@@ -17,24 +17,24 @@ public class LoginDao {
 	}
 	public boolean[] WhetherLogin(User user) throws SQLException {
 		boolean Flag[]=new boolean[2];
-		String str="select * from user where Account = ?";
-		String password;
+		Flag[0]=false;
+		Flag[1]=false;
+		String str="select * from user",name,password;
 		PreparedStatement preSql=con.prepareStatement(str);
-		preSql.setString(1, user.getName());
 		ResultSet rs = preSql.executeQuery();
-		if(rs.next()!=true) {
-			Flag[0]=false;
-			Flag[1]=false;
-		}
-		else {
-			Flag[0]=true;
+		while(rs.next()) {
+			name=rs.getString("Account");
 			password=rs.getString("Password");
-			if(user.getPassword().equals(password)) {
-				Flag[1]=true;
+			if(user.getName().equals(name)) {
+				Flag[0]=true;
+				if(user.getPassword().equals(password)) {
+					Flag[1]=true;
+				}
+				else {
+					break;
+				}
 			}
-			else {
-				Flag[1]=false;
-			}
+			
 		}
 		return Flag;
 	}
