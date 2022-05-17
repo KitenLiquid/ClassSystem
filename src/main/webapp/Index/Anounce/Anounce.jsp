@@ -23,11 +23,23 @@ $(function(){
 	$(".up").click(function () {
 		index=$(this).val();
 		$(".change").css("opacity","1");
+		$(".ch1").css("opacity","0");
+		$(".ch2").css("opacity","0");
 		$(".av1").val(index);
+		alert("1");
     });
 	$(".cancel").click(function () {
 		$(".change").css("opacity","0");
     });
+	$("#tr").click(function () {
+		if($(".A1").is(":checked")==true){
+			$(".ch1").css("opacity","1");
+		}
+		if($(".A2").is(":checked")==true){
+			$(".ch2").css("opacity","1");
+		}
+    });
+	
 })
 
 </script>
@@ -54,8 +66,9 @@ else
 	<form class="update" action="http://localhost:8080/ClassSystem/Update" method=post>
 	<h3>修改信息</h3>
 	<input type="hidden" name="No" class="av1"><br>
-	名称<input type="text" name="newName" value=""><br>
-	内容<input type="text" name="newContent"><br>
+	<input type="checkbox" class="A1" name="A1" value="1">编辑名称<input type="checkbox" class="A2" name="A2" value="2">编辑内容<input type="button" id="tr" name="a2" value="确认"><br>
+	<div class="ch1"><label>名称</label><input type="text" name="newName"><br></div>
+	<div class="ch2"><label>内容</label><input type="text" name="newContent"><br></div>
 	<input type="submit" name="de" value="确认编辑"><input type="button" class="cancel" value="取消">
 	</form>
 	</div>

@@ -45,14 +45,14 @@ public class Update extends HttpServlet {
 		LinkedList  <Anou>list=(LinkedList<Anou>)request.getSession().getAttribute("ListA");
 		Anou an=list.get(Integer.valueOf(request.getParameter("No")));
 		String name=request.getParameter("newName");
-		if(name!=null)
+		if(request.getParameterValues("A1")!=null)
 		an.setName(name);
 		String cont=request.getParameter("newContent");
-		if(cont!=null)
+		if(request.getParameterValues("A2")!=null)
 		an.setContent(cont);
+		System.out.print("Ãû³Æ"+an.getName()+"ÄÚÈÝ"+an.getContent());
 		try {
 			AnnounDao Ad=new AnnounDao(an);
-			System.out.print(an.getContent()+an.getName()+an.getNo()+"aaaa");
 			Ad.Update();
 			Ad.closed();
 			request.getRequestDispatcher("AnounServlet").forward(request, response);

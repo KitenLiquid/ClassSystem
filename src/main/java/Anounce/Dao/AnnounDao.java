@@ -54,8 +54,8 @@ public class AnnounDao {
 		ResultSet rs = presql.executeQuery();
 		while(rs.next()) {
 			Anou a=new Anou();
-			a.setContent(rs.getString("AName"));
-			a.setName(rs.getString("Content"));
+			a.setContent(rs.getString("Content"));
+			a.setName(rs.getString("AName"));
 			a.setNo(rs.getInt("No"));
 			Ac.add(a);
 		}
