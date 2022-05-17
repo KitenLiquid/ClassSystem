@@ -1,4 +1,4 @@
-package Index.Bean;
+package Anounce.Bean;
 
 public class Anou {
 	String name;

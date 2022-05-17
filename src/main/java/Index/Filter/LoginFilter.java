@@ -52,7 +52,6 @@ public class LoginFilter extends HttpFilter implements Filter {
 			resp.setHeader("refresh","5;url="+contextPath+"/Login.jsp");
 			 return;//ÖÕÖ¹¹ıÂË
 			 }
-		chain.doFilter(request, response);
 	}
 
 	/**

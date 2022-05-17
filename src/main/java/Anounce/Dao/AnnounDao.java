@@ -10,7 +10,7 @@ import java.util.Random;
 
 import javax.naming.NamingException;
 
-import Index.Bean.Anou;
+import Anounce.Bean.Anou;
 import JNDIutil.JNDIUtils;
 
 public class AnnounDao {
@@ -60,5 +60,13 @@ public class AnnounDao {
 			Ac.add(a);
 		}
 		return Ac;
+	}
+	public void closed() {
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
