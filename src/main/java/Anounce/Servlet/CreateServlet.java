@@ -1,4 +1,4 @@
-package Index.Servlet;
+package Anounce.Servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Index.Bean.User;
-import Index.Dao.LoginDao;
+import Anounce.Bean.Anou;
+import Anounce.Dao.AnnounDao;
 
 /**
- * Servlet implementation class LoginVertify
+ * Servlet implementation class CreateServlet
  */
-@WebServlet("/LoginVertify")
-public class LoginVertify extends HttpServlet {
+@WebServlet("/CreateServlet")
+public class CreateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginVertify() {
+    public CreateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,40 +33,28 @@ public class LoginVertify extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		doPost(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		Anou an=new Anou();
+		an.setContent(request.getParameter("ncontent"));
+		an.setName(request.getParameter("nname"));
+		an.setNo(Integer.valueOf(request.getParameter("nno")));
+		AnnounDao Ad;
 		try {
-			LoginDao Tool=new LoginDao();
-			User user=new User();
-			user.setName(request.getParameter("name"));
-			user.setPassword(request.getParameter("password"));
-			boolean a[]=Tool.WhetherLogin(user);
-			if(!a[0]) {
-				request.getSession().setAttribute("Wrong", "’Àªß≤ª¥Ê‘⁄");
-				request.getRequestDispatcher("Login.jsp").forward(request, response);
-				System.out.print("name");
-			}
-			else {
-				if(a[1]) {
-					request.getSession().setAttribute("User", user.getName());
-					request.getRequestDispatcher("/Index/Index.jsp").forward(request, response);
-				}
-				else {
-					request.getSession().setAttribute("Wrong", "√‹¬Î¥ÌŒÛ");
-					request.getRequestDispatcher("Login.jsp").forward(request, response);
-					System.out.print("password");
-				}
-			}
-			
+			Ad = new AnnounDao(an);
+			Ad.Insert();
+			Ad.closed();
 		} catch (NamingException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 }
