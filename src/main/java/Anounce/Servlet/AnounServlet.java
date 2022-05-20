@@ -42,11 +42,15 @@ public class AnounServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			request.getSession().setAttribute("apg", request.getParameter("anpage"));
+			int allp;
 			Anou an=new Anou();
 			AnnounDao Ad=new AnnounDao(an);
 			LinkedList <Anou> list=Ad.Select();
 			if(list.size()!=0) {
 				list=Ad.Select();
+				allp=(list.size()-1)/12+1;
+				request.getSession().setAttribute("allp", allp);
 			}
 			else {
 				list=null;

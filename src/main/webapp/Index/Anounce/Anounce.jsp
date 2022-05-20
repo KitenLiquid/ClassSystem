@@ -175,6 +175,21 @@ position: absolute;
 bottom:10px;
 right:100px;
 }
+.showpage{
+position:absolute;
+bottom:-40px;
+right:700px;
+font-size:20px;
+font-weight:600;
+}
+。last-page{
+display:block;
+opacity:0;
+}
+。next-page{
+opacity:0;
+display:block;
+}
 </style>
 <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
@@ -211,6 +226,18 @@ right:100px;
                     $(".a3>li").css("display","none");
                     f3=false;
                 }
+            })
+            $(".a1>li:nth-child(1)").click(function () {
+            	window.location.replace("http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
+            })
+            $(".a1>li:nth-child(2)").click(function () {
+                    window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
+                })
+                var page=1;
+            $(".pp").click(function () {
+            	page=$(".vapa").val();
+            	$.post( "http://localhost:8080/ClassSystem/AnounServlet",{"anpage":page});
+            	window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
             })
             
         })
@@ -259,7 +286,6 @@ $(function(){
 			$(".ch2").css("opacity","0");
 		}
     });
-	
 })
 </script>
 </head>
@@ -269,17 +295,37 @@ $(function(){
  
 <%
 LinkedList  <Anou>list=(LinkedList<Anou>)session.getAttribute("ListA");
+
 if(list==null){
 	%>
-	<p>重新刷新界面！!!!! <p>
-	<form action="../../AnounServlet" method=post>
+	<p>重新刷新界面！!!!! </p>
+	<form action="http://localhost:8080/ClassSystem/AnounServlet" method=post>
 <input type="submit" value="刷新">
 
 <%
 }
 else
 {
-	int l=list.size(),i=0;
+	int l,i=0;
+	int mypage;
+	if(session.getAttribute("apg")!=null){
+	mypage=Integer.valueOf((String)session.getAttribute("apg"));
+	}
+	else{
+	mypage=1;
+	}
+	int tp=0,allp=1;
+	if(session.getAttribute("allp")!=null){
+		allp=(Integer)session.getAttribute("allp");
+	}
+	if(mypage>allp){
+		tp=0;
+	}
+	else{
+		tp=mypage-1;
+	}
+	i=tp*12;
+	l=tp*12+11;
 	%> 
 	<div class="change"> 
 	<form class="update" action="http://localhost:8080/ClassSystem/Update" method=post>
@@ -295,7 +341,7 @@ else
 	<table class="ta" border=1 cellspacing="5" cellpadding="10" width="1200"> <tr><th>编号</th><th>名称</th><th>内容</th><th>操作</th>
 	</tr><%
 	
-	while(i<l){
+	while(i<l&&list.size()>i){
 	%>	
 	
         
@@ -335,9 +381,38 @@ else
     <label id="time" ></label><label class="count">您好，用户${sessionScope.User}</label><button class="ex">退出</button>
 </div>
 <div class="bottom-change">
-    <form action="#" method="get" class="page">
-        <input type="text" name="page" id="page"><input type="submit" value="跳转">
-    </form>
+    <form class="page">
+        <input type="text" name="page" class="vapa" id="page">页<input type="button" value="跳转" class="pp">
+    </form><br>
+    <div class="showpage"><button class="last-page">上一页</button>共<%=allp %>页,当前第<%=tp+1 %>页<button class="next-page">下一页</button></div>
+    <script>
+    $(function(){
+    	 var ap=<%=allp %>;
+    	    var tp=<%=tp+1 %>;   
+    	    if(tp==1){
+    	    	$(".last-page").css("opacity","0");
+    	    }
+    	    else{
+    	    	$(".last-page").css("opacity","1");
+    	    }
+    	    if(tp==ap){
+    	    	$(".next-page").css("opacity","0");
+    	    }
+    	    else{
+    	    	$(".next-page").css("opacity","1");
+    	    }
+    	    $(".last-page").click(function () {
+    	    	tp=tp-1;
+            	$.post( "http://localhost:8080/ClassSystem/AnounServlet",{"anpage":tp});
+            	window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
+            })
+            $(".next-page").click(function () {
+            	tp=tp+1;
+            	$.post( "http://localhost:8080/ClassSystem/AnounServlet",{"anpage":tp});
+            	window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
+            })
+    })
+    </script>
 </div>
 	
 	    <%
