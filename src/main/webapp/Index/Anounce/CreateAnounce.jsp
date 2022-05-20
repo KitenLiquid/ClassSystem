@@ -180,6 +180,9 @@ body{
             	$(".a1>li:nth-child(2)").click(function () {
                     window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
                 })
+                $(".a>li:nth-child(1)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Index.jsp");
+            })
         })
     </script>
     <script type="text/javascript">
