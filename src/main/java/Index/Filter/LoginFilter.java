@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(filterName="/LoginFilter", urlPatterns={"/Index/*"})
+@WebFilter(filterName="/LoginFilter", urlPatterns={"/*"})
 public class LoginFilter extends HttpFilter implements Filter {
        
     /**
@@ -44,14 +44,19 @@ public class LoginFilter extends HttpFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse)response;
 		HttpSession session = req.getSession(true);
 		PrintWriter out = resp.getWriter();		
-		String contextPath = req.getContextPath();		
+		String contextPath = req.getContextPath();	
+		String requestURI = req.getRequestURI();
+		if(!requestURI.contains("Login.jsp")&&!requestURI.contains("LoginVertify")) {
 		if (session.getAttribute("User") != null) {
 			chain.doFilter(request, response);
 			} else {
 			out.println("<h2>您没有登录，请先登录！3秒后回到登录页面。</h2>");
 			resp.setHeader("refresh","5;url="+contextPath+"/Login.jsp");
 			 return;//终止过滤
-			 }
+			 }}
+		else {
+			chain.doFilter(request, response);
+		}
 	}
 
 	/**
