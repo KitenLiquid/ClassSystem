@@ -1,6 +1,7 @@
 package Index.Servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.naming.NamingException;
@@ -42,12 +43,13 @@ public class LoginVertify extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			LoginDao Tool=new LoginDao();
+			
 			User user=new User();
 			user.setName(request.getParameter("name"));
 			user.setPassword(request.getParameter("password"));
 			boolean a[]=Tool.WhetherLogin(user);
 			if(!a[0]) {
-				request.getSession().setAttribute("Wrong", "’Àªß≤ª¥Ê‘⁄");
+				request.getSession().setAttribute("Wrong", "<div class='gg'>’Àªß≤ª¥Ê‘⁄</div>");
 				request.getRequestDispatcher("Login.jsp").forward(request, response);
 				System.out.print("name");
 			}
@@ -57,7 +59,7 @@ public class LoginVertify extends HttpServlet {
 					request.getRequestDispatcher("/Index/Index.jsp").forward(request, response);
 				}
 				else {
-					request.getSession().setAttribute("Wrong", "√‹¬Î¥ÌŒÛ");
+					request.getSession().setAttribute("Wrong", "<div class='gg'>√‹¬Î¥ÌŒÛ</div>");
 					request.getRequestDispatcher("Login.jsp").forward(request, response);
 					System.out.print("password");
 				}

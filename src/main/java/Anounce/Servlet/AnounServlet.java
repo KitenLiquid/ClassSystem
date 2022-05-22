@@ -52,9 +52,6 @@ public class AnounServlet extends HttpServlet {
 				allp=(list.size()-1)/12+1;
 				request.getSession().setAttribute("allp", allp);
 			}
-			else {
-				list=null;
-			}
 			Ad.closed();
 			request.getSession().setAttribute("ListA", list);
 			request.getRequestDispatcher("/Index/Anounce/Anounce.jsp").forward(request, response);

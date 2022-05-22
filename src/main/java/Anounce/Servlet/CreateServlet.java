@@ -1,6 +1,7 @@
 package Anounce.Servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.naming.NamingException;
@@ -48,8 +49,12 @@ public class CreateServlet extends HttpServlet {
 		AnnounDao Ad;
 		try {
 			Ad = new AnnounDao(an);
-			Ad.Insert();
+			boolean t=Ad.Insert();
+			if(!t) {
+				
+			}
 			Ad.closed();
+			request.getRequestDispatcher("/Index/Anounce/CreateAnounce.jsp").include(request, response);
 		} catch (NamingException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

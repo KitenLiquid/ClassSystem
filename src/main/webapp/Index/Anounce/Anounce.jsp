@@ -239,8 +239,11 @@ display:block;
                 var page=1;
             $(".pp").click(function () {
             	page=$(".vapa").val();
-            	$.post( "http://localhost:8080/ClassSystem/AnounServlet",{"anpage":page});
+            	if(page!=""){
+            		$.post( "http://localhost:8080/ClassSystem/AnounServlet",{"anpage":page});
             	window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
+            	}
+            	
             })
             
         })
@@ -298,11 +301,11 @@ $(function(){
  
 <%
 LinkedList  <Anou>list=(LinkedList<Anou>)session.getAttribute("ListA");
-
-if(list==null){
+if(list!=null){
+if(list.size()==0){
 	%>
-	<p>重新刷新界面！!!!! </p>
-	<form action="http://localhost:8080/ClassSystem/AnounServlet" method=post>
+	<p>没有公告请创建一个公告!!!! </p>
+	<form action="http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp" method=post>
 <input type="submit" value="刷新">
 
 <%
@@ -385,7 +388,7 @@ else
 </div>
 <div class="bottom-change">
     <form class="page">
-        <input type="text" name="page" class="vapa" id="page">页<input type="button" value="跳转" class="pp">
+        <input type="text" name="page" class="vapa" id="page" onkeyup="this.value=this.value.replace(/[^\d]/g,'') ">页<input type="button" value="跳转" class="pp">
     </form><br>
     <div class="showpage"><button class="last-page">上一页</button>共<%=allp %>页,当前第<%=tp+1 %>页<button class="next-page">下一页</button></div>
     <script>
@@ -419,7 +422,9 @@ else
 </div>
 	
 	    <%
+} }
+else{
+		request.getRequestDispatcher("../../AnounServlet").forward(request, response);
 } %>
-
 </body>
 </html>

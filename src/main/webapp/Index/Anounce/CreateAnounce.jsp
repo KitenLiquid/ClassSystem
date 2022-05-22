@@ -11,6 +11,20 @@ position: absolute;
 right:30%;
 top:40%;
 }
+        .showall{
+            position: absolute;
+            top:35%;
+            left: 40%;
+            background: #ffffff;
+            width: 400px;
+            height: 200px;
+            border:4px solid #000000;
+            border-radius:  25px 25px 25px 25px;
+            text-align: center;
+            line-height: 200px;
+            font-size: 35px;
+            color: #ff0000;
+        }
 body{
             font-size: 15px;
             font-family: "Microsoft JhengHei Light";

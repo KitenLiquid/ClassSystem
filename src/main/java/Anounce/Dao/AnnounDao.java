@@ -20,22 +20,33 @@ public class AnnounDao {
 		con=JNDIUtils.Sendcon();
 		this.an=an;
 	}
-	public void Insert() throws SQLException {
+	public boolean Insert() throws SQLException {
+		int i=0;
 		String str="insert into anouncement values (?,?,?)";
 		PreparedStatement presql = con.prepareStatement(str);
 		Random random = new Random();
 		presql.setString(1, an.getName());
 		presql.setString(2, an.getContent());
 		presql.setInt(3, random.nextInt(1000));
-		presql.executeUpdate();
+		i=presql.executeUpdate();
+		if(i==0)
+		return false;
+		else
+			return true;
 	}
-	public void Delete() throws SQLException {
+	public boolean Delete() throws SQLException {
+		int i=0;
 		String str="delete from anouncement where No=?";
 		PreparedStatement presql = con.prepareStatement(str);
 		presql.setInt(1, an.getNo());
-		presql.executeUpdate();
+		i=presql.executeUpdate();
+		if(i==0)
+			return false;
+			else
+				return true;
 	}	
-	public void Update() throws SQLException {
+	public boolean Update() throws SQLException {
+		int i=0,j=0;
 		String str1="update anouncement set AName = ? where No = ?";
 		String str2="update anouncement set Content = ? where No = ?";
 		PreparedStatement presql1 = con.prepareStatement(str1);
@@ -44,8 +55,12 @@ public class AnnounDao {
 		presql1.setInt(2, an.getNo());
 		presql2.setString(1, an.getContent());
 		presql2.setInt(2, an.getNo());
-		presql1.executeUpdate();
-		presql2.executeUpdate();
+		i=presql1.executeUpdate();
+		j=presql2.executeUpdate();
+		if(i==0&&j==0)
+			return false;
+			else
+				return true;
 	}
 	public LinkedList <Anou> Select() throws SQLException {
 		LinkedList <Anou>Ac=new LinkedList<Anou>();
