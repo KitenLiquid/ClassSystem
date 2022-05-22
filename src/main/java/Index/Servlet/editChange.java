@@ -1,7 +1,6 @@
-package Anounce.Servlet;
+package Index.Servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.naming.NamingException;
@@ -11,20 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Anounce.Bean.Anou;
-import Anounce.Dao.AnnounDao;
+import Index.Bean.User;
+import Index.Dao.LoginDao;
 
 /**
- * Servlet implementation class CreateServlet
+ * Servlet implementation class editChange
  */
-@WebServlet("/CreateServlet")
-public class CreateServlet extends HttpServlet {
+@WebServlet("/editChange")
+public class editChange extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateServlet() {
+    public editChange() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,7 +33,7 @@ public class CreateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doPost(request, response);
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -42,24 +41,26 @@ public class CreateServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Anou an=new Anou();
-		an.setContent(request.getParameter("ncontent"));
-		an.setName(request.getParameter("nname"));
-		an.setNo(Integer.valueOf(request.getParameter("nno")));
-		AnnounDao Ad;
+		User user=new User();
+		user.setAge(Integer.valueOf(request.getParameter("age")));
+		user.setIndex(request.getParameter("id"));
+		user.setEg(request.getParameter("eg"));
+		user.setPassword(request.getParameter("ps"));
+		user.setSi(request.getParameter("si"));
+		user.setName(request.getParameter("acount"));
 		try {
-			Ad = new AnnounDao(an);
-			boolean t=Ad.Insert();
-			if(!t) {
-				
-			}
-			Ad.closed();
-			request.getRequestDispatcher("/Index/Anounce/CreateAnounce.jsp").forward(request, response);
-		} catch (NamingException | SQLException e) {
+			LoginDao u1=new LoginDao();
+			request.getSession().setAttribute("User", user);
+			u1.Update(user);
+			u1.closed();
+			request.getRequestDispatcher("/Index/Index.jsp").forward(request, response);
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 }

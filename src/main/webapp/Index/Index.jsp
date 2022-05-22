@@ -112,6 +112,34 @@
             right: 0;
             bottom: 150px;
         }
+        .introduce{
+        position: absolute;
+        left:25%;
+        top: 20%;
+        font-size: 25px;
+        line-height:50px;
+        }
+        label{
+        font-weight: 600;
+        }
+        .epd{ 
+        position: absolute;
+        left:40%;
+        top: 25%;
+        background-color: #ffffff;
+		border:1px solid #2c3850;
+		box-shadow: 10px 10px 10px -4px rgb(0,0,0);
+		border-radius:20px 20px 20px 20px;
+        opacity:0;
+        width:500px; 
+        height:500px
+        }
+        .ty{
+        position: absolute;
+        left:20%;
+        font-size:20px;
+        line-height:40px;
+        }
     </style>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
@@ -150,7 +178,7 @@
                 }
             })
             $(".a1>li:nth-child(1)").click(function () {
-                window.location.replace("http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
+                window.location.replace("http://localhost:8080/ClassSystem/AnounServlet");
             })
             $(".a1>li:nth-child(2)").click(function () {
                 window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
@@ -158,6 +186,14 @@
             $(".a>li:nth-child(1)").click(function () {
                 window.location.replace("http://localhost:8080/ClassSystem/Index/Index.jsp");
             })
+        	var index;
+        	$(".edit").click(function () {
+        		index=$(this).val();
+        		$(".epd").css("opacity","1");
+            });
+        	$(".cancel").click(function () {
+        		$(".epd").css("opacity","0");
+            });
         })
     </script>
     <script type="text/javascript">
@@ -202,8 +238,34 @@
     </ul>
 </div>
 
+
+<div class="introduce">
+<label>账户：</label>${sessionScope.User.name}<br>
+<label>年龄：</label>${sessionScope.User.age}<br>
+<label>民族：</label>${sessionScope.User.eg}<br>
+<label>管理员ID：</label>${sessionScope.User.index}<br>
+<label>密码：</label>****************<br>
+<label>自我介绍：</label>${sessionScope.User.si}<br>
+<button class="edit">修改个人信息</button>
+</div>
+
+<div class="epd">
+<h2>信息修改</h2>
+<div class='ty'>
+<form action="http://localhost:8080/ClassSystem/editChange" method=post>
+<label>账户：</label><input type='text' name='acount' value='${sessionScope.User.name}'><br>
+<label>年龄：</label><input type='text' name='age' value='${sessionScope.User.age}'><br>
+<label>民族：</label><input type='text' name='eg' value='${sessionScope.User.eg}'><br>
+<label>管理员ID：</label>${sessionScope.User.index}<br><input type="hidden" name='id' value='${sessionScope.User.index}'>
+<label>密码：</label><input type='password' name='ps' value='${sessionScope.User.password}'><br>
+<label>自我介绍：</label><input type='text' name='si' value='${sessionScope.User.si}'><br>
+<input type="submit" value="确认修改">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button class='cancel'>取消</button><br>
+</form>
+</div>
+</div>
+
 <div class="top-order">
-    <label id="time" ></label><label class="count">您好，用户</label><button class="ex">退出</button>
+    <label id="time" ></label><label class="count">您好，用户${sessionScope.User.name}</label><button class="ex">退出</button>
 </div>
 <div class="bottom-change">
 </div>

@@ -189,7 +189,7 @@ body{
                 }
             })
             $(".a1>li:nth-child(1)").click(function () {
-                window.location.replace("http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
+                window.location.replace("http://localhost:8080/ClassSystem/AnounServlet");
             })
             	$(".a1>li:nth-child(2)").click(function () {
                     window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
@@ -220,7 +220,7 @@ body{
 <body>
 <div class="create">
 <form action="../../CreateServlet" method=post>
-<div class="nno"><label>编号</label><input type="text"  name="nno" required="required"></div>
+<div class="nno"><label>编号</label><input type="text"  name="nno"  onkeyup="this.value=this.value.replace(/[^\d]/g,'')" required="required"></div>
 <div class="nname"><label>名称</label><input type="text"  name="nname" required="required"></div>
 <div class="ncontent"><label>内容</label><textarea cols="35" rows="5" name="ncontent" required="required"></textarea></div>
 <div class="cr"><input type="submit" value="创建"></div>
@@ -249,7 +249,7 @@ body{
     </ul>
 </div>
 <div class="top-order">
-    <label id="time" ></label><label class="count">您好，用户</label><button class="ex">退出</button>
+    <label id="time" ></label><label class="count">您好，用户${sessionScope.User.name}</label><button class="ex">退出</button>
 </div>
 <div class="bottom-change">
 </div>

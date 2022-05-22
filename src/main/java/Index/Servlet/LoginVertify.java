@@ -55,7 +55,8 @@ public class LoginVertify extends HttpServlet {
 			}
 			else {
 				if(a[1]) {
-					request.getSession().setAttribute("User", user.getName());
+					User tu=Tool.getInformation(user.getName());
+					request.getSession().setAttribute("User", tu);
 					request.getRequestDispatcher("/Index/Index.jsp").forward(request, response);
 				}
 				else {
@@ -64,7 +65,7 @@ public class LoginVertify extends HttpServlet {
 					System.out.print("password");
 				}
 			}
-			
+			Tool.closed();
 		} catch (NamingException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

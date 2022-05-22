@@ -228,7 +228,7 @@ display:block;
                 }
             })
             $(".a1>li:nth-child(1)").click(function () {
-            	window.location.replace("http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
+            	window.location.replace("http://localhost:8080/ClassSystem/AnounServlet");
             })
             $(".a1>li:nth-child(2)").click(function () {
                     window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
@@ -307,7 +307,7 @@ if(list.size()==0){
 	<p>没有公告请创建一个公告!!!! </p>
 	<form action="http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp" method=post>
 <input type="submit" value="刷新">
-
+<%=list.size() %>
 <%
 }
 else
@@ -384,7 +384,7 @@ else
     </ul>
 </div>
 <div class="top-order">
-    <label id="time" ></label><label class="count">您好，用户${sessionScope.User}</label><button class="ex">退出</button>
+    <label id="time" ></label><label class="count">您好，用户${sessionScope.User.name}</label><button class="ex">退出</button>
 </div>
 <div class="bottom-change">
     <form class="page">
