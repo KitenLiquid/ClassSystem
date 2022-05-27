@@ -240,6 +240,7 @@ body{
         <ul class="a2">
             <li>学生信息</li>
             <li>课程信息</li>
+            <li>老师信息</li>
         </ul>
         <li>成绩管理</li>
         <ul class="a3">
