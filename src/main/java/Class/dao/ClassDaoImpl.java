@@ -64,7 +64,7 @@ public class ClassDaoImpl implements ClassDao{
 	}
 	
 	@Override
-	public List<classxx> queryAll() {
+	public List<classxx> queryAll()  throws SQLException {
 		List<classxx> classxx=new ArrayList<classxx>();
 		try {
 			conn = JNDIUtils.getConnection();
