@@ -45,8 +45,7 @@ public class SearchClassServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		try {
 			String ClassName=  request.getParameter("ClassName");
-			String TName=  request.getParameter("ClassName");
-			
+			String TName=  request.getParameter("TName");
 			//2. 找service去查询
 			classService service = new classServiceImpl();
 			List<classxx> list = service.search(ClassName, TName);
@@ -59,7 +58,7 @@ public class SearchClassServlet extends HttpServlet {
 			request.setAttribute("list", list);
 			
 			//3. 跳转界面。列表界面
-			request.getRequestDispatcher("list.jsp").forward(request, response);
+			request.getRequestDispatcher("/Index/Class/list.jsp").forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

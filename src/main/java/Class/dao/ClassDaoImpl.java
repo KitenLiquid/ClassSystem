@@ -68,7 +68,7 @@ public class ClassDaoImpl implements ClassDao{
 		List<classxx> classxx=new ArrayList<classxx>();
 		try {
 			conn = JNDIUtils.getConnection();
-			String sql = "select * from  class";
+			String sql = "SELECT class.ClassName,class.ClassNumber,class.APnumber,teacher.TName,teacher.PhoneNumber FROM class,teacher where class.ClassNumber=teacher.ClassNumber";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -76,6 +76,8 @@ public class ClassDaoImpl implements ClassDao{
 				classx.setClassName(rs.getString("ClassName"));
                 classx.setAPnumber(rs.getInt("APnumber"));
                 classx.setClassNumber(rs.getInt("ClassNumber"));
+                classx.setTName(rs.getString("TName"));
+                classx.setPhoneNumber(rs.getInt("PhoneNumber"));
                 classxx.add(classx);
 			}
 		} catch (Exception e) {
@@ -88,15 +90,17 @@ public class ClassDaoImpl implements ClassDao{
 	@Override
 	public List<classxx> search(String ClassName, String TName) throws SQLException {
 		List<classxx> classxx=new ArrayList<classxx>();	
-			String sql = "select * from  class where 1=1 ";
-			
-			if(ClassName != null && !"".equals(ClassName)) {
-				sql +="and ClassName like ? ";
-			}
-			if(TName != null && !"".equals(TName)) {
-				sql +="and TName like ? ";
-			}
+		String sql = "SELECT class.ClassName,class.ClassNumber,class.APnumber,teacher.TName,teacher.PhoneNumber FROM class,teacher where class.ClassNumber=teacher.ClassNumber and 1=1";
+		if (ClassName != null && !"".equals(ClassName)) {
+			sql = sql + " and ClassName like '%" + ClassName + "%'";
+		}
+
+		if (TName != null && !"".equals(TName)) {
+			sql = sql + " and TName like '%" + TName + "%'";
+		}
 		try {
+			
+			System.out.println(TName);
 			conn = JNDIUtils.getConnection();
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
@@ -105,8 +109,11 @@ public class ClassDaoImpl implements ClassDao{
 				classx.setClassName(rs.getString("ClassName"));
                 classx.setAPnumber(rs.getInt("APnumber"));
                 classx.setClassNumber(rs.getInt("ClassNumber"));
+                classx.setTName(rs.getString("TName"));
+                classx.setPhoneNumber(rs.getInt("PhoneNumber"));
                 classxx.add(classx);
 			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

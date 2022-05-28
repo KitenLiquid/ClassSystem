@@ -19,15 +19,15 @@
   <table>
   <tr>
 	<td>课程名</td>
-	<td><input type="text" name="ClassName" value="${class.ClassName }"></td>
+	<td><input type="text" name="ClassName"></td>
   </tr>
   <tr>
 	<td>课程号</td>
-	<td><input type="text" name="ClassName" value="${class.ClassName }"></td>
+	<td><input type="text" name="ClassName"></td>
   </tr>
   <tr>
 	<td>学生人数</td>
-	<td><input type="text" name="APnumber" value="${class.APnumber }"></td>
+	<td><input type="text" name="APnumber" ></td>
   </tr>
   <tr>
 	<td colspan="2"> <input type="submit" value="更新"> </td>

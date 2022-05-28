@@ -1,6 +1,8 @@
 package Class.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,6 +46,7 @@ public class UpdateServlet extends HttpServlet {
 			int APnumber = Integer.parseInt(request.getParameter("APnumber"));
 			String ClassName = request.getParameter("ClassName");
 			int ClassNumber = Integer.parseInt(request.getParameter("ClassNumber"));
+
 			//2. 添加到数据库
 			classxx Class = new classxx(ClassName,APnumber,ClassNumber);
 			
@@ -52,7 +55,7 @@ public class UpdateServlet extends HttpServlet {
 			service.update(Class);
 			
 			//3. 跳转界面
-			request.getRequestDispatcher("classListServlet").forward(request, response);
+			request.getRequestDispatcher("ClassSystem/classListServlet").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

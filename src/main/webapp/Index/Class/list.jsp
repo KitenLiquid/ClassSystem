@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%> 
     <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+    <jsp:directive.page import="java.util.List" />
+<jsp:directive.page import="Class.bean.classxx" />
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +20,10 @@
 					
 					按课程名查询:<input type="text" name="ClassName"/>
 					&nbsp;
-					按课程号查询:<input type="text" name="ClassNumber"/>
+					按教师名查询:<input type="text" name="TName"/>
+					&nbsp;
+				
+					
 					&nbsp;&nbsp;&nbsp;
 					<input type="submit" value="查询">
 					&nbsp;&nbsp;&nbsp;
@@ -29,16 +35,24 @@
 			<td>课程名</td>
 			<td>课程号</td>
 			<td>课程人数</td>
+			<td>授课教师</td>
+			<td>教师电话</td>
 		  </tr>
-		  
-			  <c:forEach items="${list }" var="Class">
+		  <%List <classxx> list=(List <classxx>)request.getAttribute("list"); 
+		  int i=0;
+		  if(list!=null)
+		  while(list.size()>i){%>
+			  
 				  <tr align="center">
-					<td>${classxx.ClassName }</td>
-					<td>${classxx.ClassNumber }</td>
-					<td>${classxx.APnumber }</td>
-					
+					<td><%=list.get(i).getClassName() %></td>
+					<td><%=list.get(i).getClassNumber() %></td>
+					<td><%=list.get(i).getAPnumber() %></td>
+					<td><%=list.get(i).getTName() %></td>
+					<td><%=list.get(i).getPhoneNumber() %></td>
+					 
 				  </tr>
-			  </c:forEach>
+		<% i++;}%>
+
 		  </table>
 	  </form>
 </body>
