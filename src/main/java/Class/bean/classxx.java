@@ -45,6 +45,13 @@ public class classxx {
         this.APnumber = APnumber;
         this.ClassNumber = ClassNumber;
     }
+    public classxx(String ClassName, int APnumber,int ClassNumber,int PhoneNumber,String TName) {
+        this.ClassName = ClassName;
+        this.APnumber = APnumber;
+        this.ClassNumber = ClassNumber;
+        this.PhoneNumber = PhoneNumber;
+        this.TName = TName;
+    }
 
     public classxx() {
     }

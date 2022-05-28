@@ -1,7 +1,7 @@
 package Class.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,16 +14,16 @@ import Class.service.classService;
 import Class.service.classServiceImpl;
 
 /**
- * Servlet implementation class UpdateServlet
+ * Servlet implementation class EditServlet
  */
-@WebServlet("/UpdateServlet")
-public class UpdateServlet extends HttpServlet {
+@WebServlet("/EditServlet")
+public class EditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateServlet() {
+    public EditServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,29 +39,23 @@ public class UpdateServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		request.setCharacterEncoding("UTF-8");
 		try {
-			//1. 获取客户端提交上来的数据
-			int APnumber = Integer.parseInt(request.getParameter("APnumber"));
-			String ClassName = request.getParameter("ClassName");
+			//1. 接收id
 			int ClassNumber = Integer.parseInt(request.getParameter("ClassNumber"));
-			String TName = request.getParameter("TName");
-			int PhoneNumber = Integer.parseInt(request.getParameter("PhoneNumber"));
-			//2. 添加到数据库
-			classxx Class = new classxx(ClassName,APnumber,ClassNumber,PhoneNumber, TName);
 			
-			//2. 更新数据库数据
+			//2. 查询学生数据
 			classService service = new classServiceImpl();
-			service.update(Class);
+			classxx Class = service.queryByNumber(ClassNumber);
 			
-			//3. 跳转界面
-			request.getRequestDispatcher("ClassListServlet").forward(request, response);
-		} catch (Exception e) {
+			//3. 显示数据
+			//存数据
+			request.setAttribute("Class", Class);
+			//跳转
+			request.getRequestDispatcher("/Index/Class/update.jsp").forward(request, response);
+			
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
-

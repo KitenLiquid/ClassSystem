@@ -49,7 +49,7 @@
 					<td><%=list.get(i).getAPnumber() %></td>
 					<td><%=list.get(i).getTName() %></td>
 					<td><%=list.get(i).getPhoneNumber() %></td>
-					 
+					 <td><a href="EditServlet?ClassNumber=<%=list.get(i).getClassNumber() %>">更新</a>&nbsp;&nbsp;<a href="#" onclick="doDelete(<%=list.get(i).getClassNumber() %>)">删除</a></td>
 				  </tr>
 		<% i++;}%>
 

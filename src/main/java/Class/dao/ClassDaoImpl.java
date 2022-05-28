@@ -20,7 +20,7 @@ public class ClassDaoImpl implements ClassDao{
 	Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
-    Statement stmt2=null;
+    PreparedStatement stmt2=null;
 
 	@Override
 	public void update(classxx Class) {
@@ -30,7 +30,14 @@ public class ClassDaoImpl implements ClassDao{
 			stmt=conn.prepareStatement(sql);
 			stmt.setString(1, Class.getClassName());
 			stmt.setInt(2, Class.getAPnumber());
+			stmt.setInt(3, Class.getClassNumber());
 			stmt.executeUpdate();
+			String sql2="update teacher set TName=?,PhoneNumber=? where ClassNumber=?";
+			stmt2=conn.prepareStatement(sql2);
+			stmt2.setString(1, Class.getTName());
+			stmt2.setInt(2, Class.getPhoneNumber());
+			stmt2.setInt(3, Class.getClassNumber());
+			stmt2.executeUpdate();
 					
 		} catch (Exception e) {
             e.printStackTrace();
@@ -44,7 +51,7 @@ public class ClassDaoImpl implements ClassDao{
             //JNDI DataSource数据源方式
             conn = JNDIUtils.getConnection();
             //将sql发送给数据库进行编译
-            String sql = "select * from  class  where ClassNumber=?";
+            String sql = "SELECT class.ClassName,class.ClassNumber,class.APnumber,teacher.TName,teacher.PhoneNumber FROM class,teacher where class.ClassNumber=teacher.ClassNumber and class.ClassNumber=?";
             stmt = conn.prepareStatement(sql);
             //设置参数
             stmt.setInt(1, ClassNumber);
@@ -55,6 +62,8 @@ public class ClassDaoImpl implements ClassDao{
                 classxx.setClassName(rs.getString("ClassName"));
                 classxx.setAPnumber(rs.getInt("APnumber"));
                 classxx.setClassNumber(rs.getInt("ClassNumber"));
+                classxx.setTName(rs.getString("TName"));
+                classxx.setPhoneNumber(rs.getInt("PhoneNumber"));
                 return classxx;
             }
         } catch (Exception e) {
