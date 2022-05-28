@@ -9,6 +9,20 @@
 <head>
 <meta charset="UTF-8">
 <title>list</title>
+<script type="text/javascript">
+
+	function doDelete(ClassNumber) {
+		/* 如果这里弹出的对话框，用户点击的是确定，就马上去请求Servlet。 
+		如何知道用户点击的是确定。
+		如何在js的方法中请求servlet。 */
+		var flag = confirm("是否确定删除?");
+		if(flag){
+			//表明点了确定。 访问servlet。 在当前标签页上打开 超链接，
+			
+			location.href="deleteServlet?ClassNumber="+ClassNumber;
+		}
+	}
+</script>
 </head>
 <body>
 <h3><a href="/ClassSystem/ClassListServlet">显示所有课程列表</a></h3><br>
@@ -27,7 +41,7 @@
 					&nbsp;&nbsp;&nbsp;
 					<input type="submit" value="查询">
 					&nbsp;&nbsp;&nbsp;
-					<a href="add.jsp">添加</a>
+					<a href="/ClassSystem/Index/Class/insert.jsp">添加</a>
 				</td>
 			</tr>
 		
