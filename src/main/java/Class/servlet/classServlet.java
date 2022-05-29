@@ -47,15 +47,14 @@ private static final long serialVersionUID = 1L;
         classaa stu1=new classaa();
         stu=service.insert(class1);
         stu1=service.insert1(class1);
-		//Éú³ÉÏìÓ¦£¬½«½á¹û×ª·¢µ½View
 		PrintWriter out=response.getWriter();
 		if(stu !=null && stu1!=null) {
 			HttpSession session=request.getSession(true);
 			session.setAttribute("class1", class1);
-			request.getRequestDispatcher("/Index/Class/list.jsp").include(request, response);
+			request.getRequestDispatcher("ClassListServlet").include(request, response);
 	    }else {
-			out.print("¸Ã¿Î³ÌÒÑ´æÔÚ£¬ÇëÖØĞÂÊäÈë¡£");
-			response.setHeader("refresh", "3;url=Index/Class/insert.jsp");	//ÖØ¶¨Ïòµ½Ôö¼ÓÒ³Ãæ	
+			out.print("è¯¾ç¨‹å·²å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥");
+			response.setHeader("refresh", "3;url=Index/Class/insert.jsp");	
 		}
 }
 

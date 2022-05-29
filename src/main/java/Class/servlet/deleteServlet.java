@@ -27,6 +27,6 @@ public class deleteServlet extends HttpServlet {
         classService service = new classServiceImpl();
         service.delete(ClassNumber);
         service.delete1(ClassNumber);
-        req.getRequestDispatcher("/Index/Class/list.jsp").forward(req,resp);
+        req.getRequestDispatcher("ClassListServlet").forward(req,resp);
     }
 }

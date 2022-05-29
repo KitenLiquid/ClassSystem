@@ -48,15 +48,14 @@ private static final long serialVersionUID = 1L;
         Student stu1=new Student();
         stu=service.insert2(student1);
         stu1=service.insert3(student1);
-		//Éú³ÉÏìÓ¦£¬½«½á¹û×ª·¢µ½View
 		PrintWriter out=response.getWriter();
 		if(stu !=null || stu1!=null) {
 			HttpSession session=request.getSession(true);
 			session.setAttribute("student1", student1);
-			request.getRequestDispatcher("/Index/Class/Slist.jsp").include(request, response);
+			request.getRequestDispatcher("SListServlet").include(request, response);
 	    }else {
-			out.print("¸Ã¿Î³ÌÒÑ´æÔÚ£¬ÇëÖØĞÂÊäÈë¡£");
-			response.setHeader("refresh", "3;url=Index/Class/stuinsert.jsp");	//ÖØ¶¨Ïòµ½Ôö¼ÓÒ³Ãæ	
+			out.print("ç›¸å…³ä¿¡æ¯å·²å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥");
+			response.setHeader("refresh", "3;url=Index/Class/stuinsert.jsp");	
 		}
 }
 

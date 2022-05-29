@@ -28,6 +28,6 @@ public class studeleteServlet extends HttpServlet {
         int ClassNumber=Integer.parseInt(classnumber);
         classService service = new classServiceImpl();
         service.delete3(Number,ClassNumber);
-        req.getRequestDispatcher("/Index/Class/Slist.jsp").forward(req,resp);
+        req.getRequestDispatcher("SListServlet").forward(req,resp);
     }
 }
