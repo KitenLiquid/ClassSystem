@@ -1,8 +1,7 @@
 package Class.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Class.bean.classxx;
+import Class.bean.Student;
 import Class.service.classService;
 import Class.service.classServiceImpl;
 
 /**
- * Servlet implementation class ClassListServlet
+ * Servlet implementation class UpdateServlet
  */
-@WebServlet("/ClassListServlet")
-public class ClassListServlet extends HttpServlet {
+@WebServlet("/SUpdateServlet")
+public class SUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClassListServlet() {
+    public SUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,21 +40,28 @@ public class ClassListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
+		request.setCharacterEncoding("UTF-8");
 		try {
-		
-			//1. 查询出来所有
+			//1. 获取客户端提交上来的数据
+			int Number = Integer.parseInt(request.getParameter("Number"));
+			int ClassNumber = Integer.parseInt(request.getParameter("ClassNumber"));
+			String Name = request.getParameter("Name");
+			String Sex = request.getParameter("Sex");
+			int Age = Integer.parseInt(request.getParameter("Age"));
+			//2. 添加到数据库
+			Student Stu = new Student(ClassNumber,Name,Number,Sex,Age);
+			
+			//2. 更新数据库数据
 			classService service = new classServiceImpl();
-			List<classxx> list = service.queryAll();
+			service.Supdate(Stu);
 			
-			//2. 先把数据存储到作用域中
-			request.setAttribute("list", list);
-			//3. 跳转页面
-			request.getRequestDispatcher("/Index/Class/list.jsp").forward(request, response);
-			
-		} catch (SQLException e) {
+			//3. 跳转界面
+			request.getRequestDispatcher("SListServlet").forward(request, response);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }
+

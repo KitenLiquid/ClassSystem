@@ -10,21 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Class.bean.classxx;
+import Class.bean.Student;
 import Class.service.classService;
 import Class.service.classServiceImpl;
 
 /**
- * Servlet implementation class ClassListServlet
+ * Servlet implementation class SearchClassServlet
  */
-@WebServlet("/ClassListServlet")
-public class ClassListServlet extends HttpServlet {
+@WebServlet("/SearchStudentServlet")
+
+public class SearchStudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClassListServlet() {
+    public SearchStudentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,21 +42,28 @@ public class ClassListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
+		request.setCharacterEncoding("UTF-8");
 		try {
-		
-			//1. 查询出来所有
+			String ClassName=  request.getParameter("ClassName");
+			String Name=  request.getParameter("Name");
+			String Sex=  request.getParameter("Sex");
+			//2. 找service去查询
 			classService service = new classServiceImpl();
-			List<classxx> list = service.queryAll();
+			List<Student> Slist = service.Ssearch(ClassName, Name, Sex);
 			
-			//2. 先把数据存储到作用域中
-			request.setAttribute("list", list);
-			//3. 跳转页面
-			request.getRequestDispatcher("/Index/Class/list.jsp").forward(request, response);
+			System.out.println("list的大小是："+Slist.size());
+			for (Student Student : Slist) {
+				System.out.println("Name="+Name);
+			}
 			
+			request.setAttribute("Slist", Slist);
+			
+			//3. 跳转界面。列表界面
+			request.getRequestDispatcher("/Index/Class/Slist.jsp").forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }

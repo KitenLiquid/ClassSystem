@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>更新学生页面</title>
+<title>更新课程页面</title>
 
 </head>
 

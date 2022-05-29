@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Class.bean.Student;
 import Class.bean.classxx;
 import Class.service.classService;
 import Class.service.classServiceImpl;
@@ -17,14 +18,14 @@ import Class.service.classServiceImpl;
 /**
  * Servlet implementation class ClassListServlet
  */
-@WebServlet("/ClassListServlet")
-public class ClassListServlet extends HttpServlet {
+@WebServlet("/SListServlet")
+public class SListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ClassListServlet() {
+    public SListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,14 +45,14 @@ public class ClassListServlet extends HttpServlet {
 		
 		try {
 		
-			//1. 查询出来所有
+			//1. 查询出来所有的学生
 			classService service = new classServiceImpl();
-			List<classxx> list = service.queryAll();
+			List<Student> Slist = service.SqueryAll();
 			
 			//2. 先把数据存储到作用域中
-			request.setAttribute("list", list);
+			request.setAttribute("Slist", Slist);
 			//3. 跳转页面
-			request.getRequestDispatcher("/Index/Class/list.jsp").forward(request, response);
+			request.getRequestDispatcher("/Index/Class/Slist.jsp").forward(request, response);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
