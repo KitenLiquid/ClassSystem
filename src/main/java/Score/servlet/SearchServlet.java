@@ -42,7 +42,7 @@ public class SearchServlet extends HttpServlet {
 		}
 		else
 		{
-			response.getWriter().write("<h3>该课程号已存在，请重新输入。</h3>");
+			response.getWriter().write("<h3>该学号已存在，请重新输入。</h3>");
 			System.out.println("111111");
         	response.setHeader("refresh", "3;url=Index/Score/input.jsp");
         	System.out.println("222222");
