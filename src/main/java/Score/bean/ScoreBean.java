@@ -6,6 +6,7 @@ public class ScoreBean {
 	private int ClassNumber;//课程号
 	private String ClassName;//课程名
 	private int APnumber;//人数
+	private String Name;//姓名
 	
 	public ScoreBean() {}
 	public ScoreBean(int score, int number, int classNumber) {
@@ -25,6 +26,15 @@ public class ScoreBean {
 		this.Number = number;
 		this.ClassNumber = classNumber;
 		this.ClassName=className;
+		this.APnumber=APnumber;
+	}
+	public ScoreBean(String Name,int Score, int Number, int ClassNumber,String ClassName,int APnumber) {
+		super();
+		this.Name=Name;
+		this.Score = Score;
+		this.Number = Number;
+		this.ClassNumber = ClassNumber;
+		this.ClassName=ClassName;
 		this.APnumber=APnumber;
 	}
 	public ScoreBean(String ClassName,int ClassNumber,int APnumber)
@@ -69,5 +79,11 @@ public class ScoreBean {
 	}
 	public void setAPnumber(int APnumber) {
 		this.APnumber = APnumber;
+	}
+	public String getName() {
+		return Name;
+	}
+	public void setName(String name) {
+		this.Name = name;
 	}
 }

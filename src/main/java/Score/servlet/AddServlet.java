@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import Score.bean.ScoreBean;
 import Score.service.ScoreService;
 
-@WebServlet("/SearchServlet")
-public class SearchServlet extends HttpServlet {
+@WebServlet("/AddServlet")
+public class AddServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    public SearchServlet() {
+    public AddServlet() {
         super();
     }
 

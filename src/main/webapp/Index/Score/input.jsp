@@ -13,19 +13,13 @@
 </style>
 <body>
 	<h2>添加新成绩</h2> 
-	<form action="/ClassSystem/SearchServlet" Method="post">
+	<form action="/ClassSystem/AddServlet" Method="post">
 	请输入成绩: <input type="text" name="Score"> <br><br>
 	请输入学号: <input type="text" name="Number"> <br><br>
 	请输入课程编号: <input type="text" name="ClassNumber"> <br><br>
 	请输入课程名: <input type="text" name="ClassName"> <br><br>
 	请输入人数:<input type="text" name="APnumber"> <br><br>
 	<input type="submit" value="插入数据"/><br><br>
-	</form>
-	
-	<h2>删除功能</h2> 
-	<form action="/ClassSystem/DeleteServlet" Method="post">
-	请输入想要删除的课程号: <input type="text" name="ClassNumber"> <br><br>
-	<input type="submit" value="点击删除"/>
 	</form>
 	
 </body>
