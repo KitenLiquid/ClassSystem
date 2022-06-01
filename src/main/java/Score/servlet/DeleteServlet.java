@@ -2,6 +2,7 @@ package Score.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +24,9 @@ public class DeleteServlet extends HttpServlet {
         ScoreService service = new ScoreService();
         service.delete(ClassNumber);
         service.delete1(ClassNumber);
-        response.getWriter().write("<h3>删除成功</h3>");
+//        response.getWriter().write("<h3>删除成功</h3>");
+        RequestDispatcher rd=request.getRequestDispatcher("SListServlet");
+        rd.forward(request, response);
 
 	}
 	

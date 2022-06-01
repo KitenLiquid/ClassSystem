@@ -14,6 +14,7 @@
 <body>
 	<h2>添加新成绩</h2> 
 	<form action="/ClassSystem/AddServlet" Method="post">
+	请输入姓名: <input type="text" name="Name"> <br><br>
 	请输入成绩: <input type="text" name="Score"> <br><br>
 	请输入学号: <input type="text" name="Number"> <br><br>
 	请输入课程编号: <input type="text" name="ClassNumber"> <br><br>

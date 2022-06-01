@@ -71,7 +71,7 @@ public class SearchStudentServlet extends HttpServlet {
 			request.setAttribute("Slist", Slist);
 			
 			//3. 跳转界面。列表界面
-			request.getRequestDispatcher("/Index/Score/Slist.jsp").forward(request, response);
+			request.getRequestDispatcher("/Index/Score/Index.jsp").forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

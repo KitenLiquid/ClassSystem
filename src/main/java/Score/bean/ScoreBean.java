@@ -15,10 +15,11 @@ public class ScoreBean {
 		this.Number = number;
 		this.ClassNumber = classNumber;
 	}
-	public ScoreBean(String className,int classNumber)
+	
+	public ScoreBean(String Name,int Number)
 	{
-		this.ClassName=className;
-		this.ClassNumber=classNumber;
+		this.Name=Name;
+		this.Number=Number;
 	}
 	public ScoreBean(int score, int number, int classNumber,String className,int APnumber) {
 		super();

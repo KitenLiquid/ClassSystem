@@ -95,7 +95,44 @@ public class ScoreDao{
         JNDIUtils.release(rs, stmt, conn);
         return existUser;
 	}
-	
+	public ScoreBean add2(ScoreBean user)
+	{
+    	try {//JDBC查询
+        	int Number=user.getNumber();
+        	String Name=user.getName();
+            conn = JNDIUtils.getConnection();
+            String sql = "select * from student where Number=?";//数据库编译时
+            stmt = conn.prepareStatement(sql);	//将sql发送给数据库进行编译
+            
+            
+            //设置sql参数
+            stmt.setInt(1, Number);	//传入数据值，不会作为关键字 --防止注入      
+            rs = stmt.executeQuery();			//执行sqlssss
+            //如果登陆成功，rs将只有一条记录            
+            if(rs.next()) 
+            {
+                System.out.println("已有该学号，请重新输入");
+            }
+            else
+            {
+            	stmt2=conn.createStatement();
+            	sql="insert into student (Name,Number) values('"+Name+"','"+Number+"')";
+            	@SuppressWarnings("unused")
+				int ok=stmt2.executeUpdate(sql);
+            	existUser=new ScoreBean("Name",Number);
+            	stmt2.close();
+            }
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+        
+        System.out.println(existUser);    
+        JNDIUtils.release(rs, stmt, conn);
+        return existUser;
+		
+	}
 	public void delete(int number) 
 	{ //登录   
         try {//JDBC查询
@@ -115,6 +152,8 @@ public class ScoreDao{
                 stmt2=conn.createStatement();
                 sql = "delete from score where ClassNumber='"+number+"'";
 				stmt2.executeUpdate(sql);
+				stmt2.close();
+				
             }
             else
             {
@@ -125,6 +164,7 @@ public class ScoreDao{
         {
             e.printStackTrace();
         }
+        JNDIUtils.release(rs, stmt, conn);
     }
 	
 	public void delete1(int number) 
@@ -146,6 +186,7 @@ public class ScoreDao{
                 stmt2=conn.createStatement();
                 sql = "delete from class where ClassNumber='"+number+"'";
 				stmt2.executeUpdate(sql);
+				stmt2.close();
             }
             else
             {
@@ -156,8 +197,8 @@ public class ScoreDao{
         {
             e.printStackTrace();
         }
+		JNDIUtils.release(rs, stmt, conn);
 	}
-    
 	public void Supdate(ScoreBean stu) {
 		try {
 			conn= JNDIUtils.getConnection();
@@ -173,11 +214,12 @@ public class ScoreDao{
 			stmt3.setInt(2, stu.getAPnumber());
 			stmt3.setInt(3, stu.getClassNumber());
 			stmt3.executeUpdate();
+			stmt3.close();
 					
 		} catch (Exception e) {
             e.printStackTrace();
         }
-		
+		JNDIUtils.release(rs, stmt, conn);
 	}
 
 	public ScoreBean SqueryByNumber(int ClassNumber) {
@@ -204,6 +246,7 @@ public class ScoreDao{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        JNDIUtils.release(rs, stmt, conn);
         return null;
 	}
 
@@ -229,6 +272,7 @@ public class ScoreDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		JNDIUtils.release(rs, stmt, conn);
 		return stu;
 	}
 
@@ -268,6 +312,7 @@ public class ScoreDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		JNDIUtils.release(rs, stmt, conn);
 		return stu;
 	}
 }

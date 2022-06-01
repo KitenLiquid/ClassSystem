@@ -51,7 +51,7 @@ public class SListServlet extends HttpServlet {
 			//2. 先把数据存储到作用域中
 			request.setAttribute("Slist", Slist);
 			//3. 跳转页面
-			request.getRequestDispatcher("/Index/Score/Slist.jsp").forward(request, response);
+			request.getRequestDispatcher("/Index/Score/Index.jsp").forward(request, response);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

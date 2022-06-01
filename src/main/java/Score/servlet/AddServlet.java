@@ -24,19 +24,21 @@ public class AddServlet extends HttpServlet {
 		int Number=Integer.valueOf(request.getParameter("Number"));
 		int ClassNumber=Integer.valueOf(request.getParameter("ClassNumber"));
 		String ClassName=request.getParameter("ClassName");
+		String Name=request.getParameter("Name");
 		int APnumber=Integer.valueOf(request.getParameter("APnumber"));
-		ScoreBean stu1 = new ScoreBean(Score, Number,ClassNumber,ClassName,APnumber);
+		ScoreBean stu1 = new ScoreBean(Name,Score,Number,ClassNumber,ClassName,APnumber);
 		
 		ScoreService service=new ScoreService();
-		if(service.add(stu1)!=null&&service.add1(stu1)!=null)
+		if(service.add(stu1)!=null&&service.add1(stu1)!=null&&service.add2(stu1)!=null)
 		{
+			System.out.println(Name);
 			System.out.println(Score);
 			System.out.println(Number);
 			System.out.println(ClassNumber);
 			System.out.println(ClassName);
 			System.out.println(APnumber);
 			request.getSession().setAttribute("stu1",stu1);  //将查询结果写入session域对象
-        	RequestDispatcher rd=request.getRequestDispatcher("/Index/Score/show.jsp");
+        	RequestDispatcher rd=request.getRequestDispatcher("SListServlet");
 			rd.forward(request, response);
 
 		}

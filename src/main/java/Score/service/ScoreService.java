@@ -17,6 +17,11 @@ public class ScoreService {
 		ScoreDao dao=new ScoreDao();
 		return dao.add1(user);
 	}
+	public ScoreBean add2(ScoreBean user)
+	{
+		ScoreDao dao=new ScoreDao();
+		return dao.add2(user);
+	}
 	public void delete(int ClassNumber)
 	{
 		ScoreDao dao=new ScoreDao();
