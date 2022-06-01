@@ -130,9 +130,10 @@
         	font-weight:bold;
         }
     </style>
-    <script src="jquery-3.3.1.min.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
     <script>
         $(function(){
+        	alert("aaa");
             var f1=false,f2=false,f3=false;
             $(".a>li:nth-child(2)").click(function () {
                 if(f1==false){
@@ -183,7 +184,8 @@
 			//表明点了确定。 访问servlet。 在当前标签页上打开 超链接，
 			
 			location.href="DeleteServlet?ClassNumber="+ClassNumber;
-	}
+		}
+    }
     </script>
     <script type="text/javascript">
         function time() {
