@@ -6,7 +6,7 @@ public class classaa {
 	private int APnumber;
 	private String TName;
 	private int PhoneNumber;
-	public classaa() {
+	 public classaa() {
 		
 	}
 	public classaa(String ClassName,int ClassNumber,int APnumber) {
