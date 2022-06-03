@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>学生</title>
     <style>
         body{
             font-size: 15px;
@@ -115,25 +115,29 @@
             right: 0;
             bottom: 150px;
         }
-        .Slist {
-        	position:absolute;
-        	top:100px;
-        	left:500px;
-        	
+        .stuxx{
+            position: absolute;
+            top:100px;
+            left: 550px;
+        }
+        .bt{
+            position: absolute;
+            top:30px;
+            left: 870px;
         }
         tr{
-        	height:40px;
+           
+            height:40px;
         }
         td{
-        	font-size:20px;
-        	font-color:black;
-        	font-weight:bold;
+             font-size:20px;
+             font-color:black;
+             font-weight:bold;
         }
     </style>
-    <script src="jquery-3.3.1.min.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
     <script>
         $(function(){
-        	alert("aaa");
             var f1=false,f2=false,f3=false;
             $(".a>li:nth-child(2)").click(function () {
                 if(f1==false){
@@ -173,6 +177,18 @@
             $(".a1>li:nth-child(2)").click(function () {
                 window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
             })
+            $(".a2>li:nth-child(1)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Class/Slist.jsp");
+            })
+            $(".a2>li:nth-child(2)").click(function () {
+                window.location.replace(" http://localhost:8080/ClassSystem/Index/Class/list.jsp");
+            })
+            $(".a3>li:nth-child(1)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Score/Index.jsp");
+            })
+            $(".a3>li:nth-child(2)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Score/input.jsp");
+            })
 
         })
         function doDelete(ClassNumber) {
@@ -184,8 +200,8 @@
 			//表明点了确定。 访问servlet。 在当前标签页上打开 超链接，
 			
 			location.href="DeleteServlet?ClassNumber="+ClassNumber;
-		}
-    }
+			}
+    	}
     </script>
     <script type="text/javascript">
         function time() {
@@ -206,7 +222,7 @@
     </script>
 </head>
 <body>
-<h1>学生成绩信息</h1>
+
 <div class="left-order">
     <h2>课程管理系统</h2>
     <ul class="a">
@@ -228,9 +244,9 @@
         </ul>
     </ul>
 </div>
-
-<div class="Slist">
-	<form action="/ClassSystem/SearchStudentServlet" method="post">
+<div class="bt"><h2>学生成绩列表</h2></div>
+<div class="stuxx">
+<form action="/ClassSystem/SearchStudentServlet" method="post">
 		<table border="1" >
 		
 			<tr >
@@ -270,15 +286,25 @@
 					 <td><a href="SEditServlet?ClassNumber=<%=Slist.get(i).getClassNumber() %>">更新</a>&nbsp;&nbsp;<a href="#" onclick="doDelete(<%=Slist.get(i).getClassNumber() %>)">删除</a></td>
 				  </tr>
 		<% i++;}%>
-
+				<tr align="center">
+					<td colspan="8">
+						<a href="/ClassSystem/Index/Score/Index.jsp">首页</a>&nbsp;&nbsp;&nbsp;
+						第1页&nbsp;&nbsp;&nbsp;
+						<a href="/ClassSystem/Index/Score/Index.jsp">上一页</a>&nbsp;&nbsp;&nbsp;
+						<a href="/ClassSystem/Index/Score/Index.jsp">下一页</a>
+					</td>
+				</tr>
 		  </table>
 	  </form>
 </div>
-
+<div class="ye">
+	
+</div>
 <div class="top-order">
     <label id="time" ></label><label class="count">您好，用户</label><button class="ex">退出</button>
 </div>
 <div class="bottom-change">
 </div>
 </body>
+
 </html>
