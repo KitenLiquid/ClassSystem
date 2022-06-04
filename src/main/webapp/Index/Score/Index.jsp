@@ -285,7 +285,10 @@
 					<td><%=Slist.get(i).getAPnumber() %></td>
 					 <td><a href="SEditServlet?ClassNumber=<%=Slist.get(i).getClassNumber() %>">更新</a>&nbsp;&nbsp;<a href="#" onclick="doDelete(<%=Slist.get(i).getClassNumber() %>)">删除</a></td>
 				  </tr>
-		<% i++;}%>
+		<% i++;}
+		else{
+			request.getRequestDispatcher("/SListServlet").forward(request, response);
+		}%>
 				<tr align="center">
 					<td colspan="8">
 						<a href="/ClassSystem/Index/Score/Index.jsp">首页</a>&nbsp;&nbsp;&nbsp;
