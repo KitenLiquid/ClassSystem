@@ -1,31 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<jsp:directive.page import="Class.bean.Student" />
+ 
+<!DOCTYPE>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>创建公告</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>更新学生信息</title>
 <style>
-.create{
-position: absolute;
-right:30%;
-top:40%;
-}
-        .showall{
-            position: absolute;
-            top:35%;
-            left: 40%;
-            background: #ffffff;
-            width: 400px;
-            height: 200px;
-            border:4px solid #000000;
-            border-radius:  25px 25px 25px 25px;
-            text-align: center;
-            line-height: 200px;
-            font-size: 35px;
-            color: #ff0000;
-        }
-body{
+        body{
             font-size: 15px;
             font-family: "Microsoft JhengHei Light";
         }
@@ -131,28 +114,22 @@ body{
             right: 0;
             bottom: 150px;
         }
-        .cr{
-           position: absolute;
-            right: 350px;
-            bottom: -100px;
+        .stuxx{
+            position: absolute;
+            top:20%;
+            left: 50%;
         }
-        .nno{
-        position: absolute;
-        right: 350px;
-        bottom: 100px;
+        tr{
+           
+            height:40px;
         }
-        .nname{
-        position: absolute;
-        right: 350px;
-        bottom: 60px;
-        }
-        .ncontent{
-        position: absolute;
-        right:260px;
-        bottom: -50px;
+        td{
+             font-size:20px;
+             font-color:black;
+             font-weight:bold;
         }
     </style>
-    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
     <script>
         $(function(){
             var f1=false,f2=false,f3=false;
@@ -206,6 +183,7 @@ body{
             $(".a3>li:nth-child(2)").click(function () {
                 window.location.replace("http://localhost:8080/ClassSystem/Index/Score/input.jsp");
             })
+
         })
     </script>
     <script type="text/javascript">
@@ -227,15 +205,7 @@ body{
     </script>
 </head>
 <body>
-<div class="create">
-<form action="../../CreateServlet" method=post>
-<div class="nno"><label>编号</label><input type="text"  name="nno"  onkeyup="this.value=this.value.replace(/[^\d]/g,'')" required="required"></div>
-<div class="nname"><label>名称</label><input type="text"  name="nname" required="required"></div>
-<div class="ncontent"><label>内容</label><textarea cols="35" rows="5" name="ncontent" required="required"></textarea></div>
-<div class="cr"><input type="submit" value="创建"></div>
-</form>
-</div>
-<h1>公告发布</h1>
+
 <div class="left-order">
     <h2>课程管理系统</h2>
     <ul class="a">
@@ -248,7 +218,7 @@ body{
         <li>基本信息管理</li>
         <ul class="a2">
             <li>学生信息</li>
-            <li>课程信息</li>
+            <li>老师信息</li>
         </ul>
         <li>成绩管理</li>
         <ul class="a3">
@@ -257,10 +227,45 @@ body{
         </ul>
     </ul>
 </div>
+<div class="stuxx">
+<h2>请输入更改信息：</h2>
+<form method="post" action="/ClassSystem/SUpdateServlet">
+    <%Student Student=(Student)request.getAttribute("Student");%>
+	
+	
+  <table border="1">
+  <tr>
+	<td>课程号</td>
+	<td><input type="hidden" name="ClassNumber" value="<%=Student.getClassNumber() %>"></td>
+  </tr>
+  <tr>
+	<td>学号</td>
+	<td><input type="hidden" name="Number" value="<%=Student.getNumber() %>"></td>
+  </tr>
+  <tr>
+	<td>姓名</td>
+	<td><input type="text" name="Name"  value="<%=Student.getName() %>"></td>
+  </tr>
+  
+  <tr>
+	<td>性别</td>
+	<td><input type="text" name="Sex"  value="<%=Student.getSex() %>"></td>
+  </tr>
+  <tr>
+	<td>年龄</td>
+	<td><input type="text" name="Age"  value="<%=Student.getAge() %>"></td>
+  </tr>
+  <tr>
+	<td colspan="2"> <input type="submit" value="更新"> </td>
+  </tr>
+  </table>
+   </form>
+</div>
 <div class="top-order">
     <label id="time" ></label><label class="count">您好，用户${sessionScope.User.name}</label><button class="ex">退出</button>
 </div>
 <div class="bottom-change">
 </div>
 </body>
+
 </html>

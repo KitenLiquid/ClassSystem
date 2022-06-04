@@ -1,31 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%> 
+    <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+    <jsp:directive.page import="java.util.List" />
+<jsp:directive.page import="Class.bean.classxx" />
+<jsp:directive.page import="Class.bean.PageBean" />
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>创建公告</title>
-<style>
-.create{
-position: absolute;
-right:30%;
-top:40%;
-}
-        .showall{
-            position: absolute;
-            top:35%;
-            left: 40%;
-            background: #ffffff;
-            width: 400px;
-            height: 200px;
-            border:4px solid #000000;
-            border-radius:  25px 25px 25px 25px;
-            text-align: center;
-            line-height: 200px;
-            font-size: 35px;
-            color: #ff0000;
-        }
-body{
+    <meta charset="UTF-8">
+     <title>教师信息</title>
+    <style>
+        body{
             font-size: 15px;
             font-family: "Microsoft JhengHei Light";
         }
@@ -131,28 +116,27 @@ body{
             right: 0;
             bottom: 150px;
         }
-        .cr{
-           position: absolute;
-            right: 350px;
-            bottom: -100px;
+        .stuxx{
+            position: absolute;
+            top:100px;
+            left: 500px;
         }
-        .nno{
-        position: absolute;
-        right: 350px;
-        bottom: 100px;
+        .bt{
+            position: absolute;
+            top:30px;
+            left: 950px;
         }
-        .nname{
-        position: absolute;
-        right: 350px;
-        bottom: 60px;
+        tr{
+           
+            height:40px;
         }
-        .ncontent{
-        position: absolute;
-        right:260px;
-        bottom: -50px;
+        td{
+             font-size:20px;
+             font-color:black;
+             font-weight:bold;
         }
     </style>
-    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
     <script>
         $(function(){
             var f1=false,f2=false,f3=false;
@@ -206,7 +190,19 @@ body{
             $(".a3>li:nth-child(2)").click(function () {
                 window.location.replace("http://localhost:8080/ClassSystem/Index/Score/input.jsp");
             })
+
         })
+        function doDelete(ClassNumber) {
+		/* 如果这里弹出的对话框，用户点击的是确定，就马上去请求Servlet。 
+		如何知道用户点击的是确定。
+		如何在js的方法中请求servlet。 */
+		var flag = confirm("是否确定删除?");
+		if(flag){
+			//表明点了确定。 访问servlet。 在当前标签页上打开 超链接，
+			
+			location.href="deleteServlet?ClassNumber="+ClassNumber;
+		}
+	}
     </script>
     <script type="text/javascript">
         function time() {
@@ -227,15 +223,7 @@ body{
     </script>
 </head>
 <body>
-<div class="create">
-<form action="../../CreateServlet" method=post>
-<div class="nno"><label>编号</label><input type="text"  name="nno"  onkeyup="this.value=this.value.replace(/[^\d]/g,'')" required="required"></div>
-<div class="nname"><label>名称</label><input type="text"  name="nname" required="required"></div>
-<div class="ncontent"><label>内容</label><textarea cols="35" rows="5" name="ncontent" required="required"></textarea></div>
-<div class="cr"><input type="submit" value="创建"></div>
-</form>
-</div>
-<h1>公告发布</h1>
+
 <div class="left-order">
     <h2>课程管理系统</h2>
     <ul class="a">
@@ -248,7 +236,7 @@ body{
         <li>基本信息管理</li>
         <ul class="a2">
             <li>学生信息</li>
-            <li>课程信息</li>
+            <li>老师信息</li>
         </ul>
         <li>成绩管理</li>
         <ul class="a3">
@@ -257,10 +245,92 @@ body{
         </ul>
     </ul>
 </div>
+<div class="bt"><h2>教师信息列表</h2></div>
+<div class="stuxx">
+<form action="/ClassSystem/SearchClassServlet" method="post">
+		<table border="1" width="1100">
+		
+			<tr >
+				<td colspan="8">
+					
+					按课程名查询:<input type="text" name="ClassName"/>
+					&nbsp;
+					按教师名查询:<input type="text" name="TName"/>
+					&nbsp;
+				
+					
+					&nbsp;&nbsp;&nbsp;
+					<input type="submit" value="查询">
+					&nbsp;&nbsp;&nbsp;
+					<a href="/ClassSystem/Index/Class/insert.jsp">添加</a>
+				</td>
+			</tr>
+		
+		  <tr align="center">
+			<td>课程名</td>
+			<td>课程号</td>
+			<td>课程人数</td>
+			<td>授课教师</td>
+			<td>教师电话</td>
+		  </tr>
+		  <%List<classxx> list=(List<classxx>)request.getAttribute("list"); 
+		  int i=0;
+		 
+		  if(list!=null)
+		  while(list.size()>i){%>
+			  
+				  <tr align="center">
+					<td><%=list.get(i).getClassName() %></td>
+					<td><%=list.get(i).getClassNumber() %></td>
+					<td><%=list.get(i).getAPnumber() %></td>
+					<td><%=list.get(i).getTName() %></td>
+					<td><%=list.get(i).getPhoneNumber() %></td>
+					 <td><a href="EditServlet?ClassNumber=<%=list.get(i).getClassNumber() %>">更新</a>&nbsp;&nbsp;<a href="#" onclick="doDelete(<%=list.get(i).getClassNumber() %>)">删除</a></td>
+				  </tr>
+		<% i++;}
+		else{
+			request.getRequestDispatcher("/SearchClassServlet").forward(request, response);
+		}%>
+	<tr>
+	 <%PageBean<classxx> pageBean=(PageBean<classxx>)request.getAttribute("pageBean");%>
+			   <tr>
+			  	<td colspan="8">
+			  		第 ${pageBean.currentPage } / ${pageBean.totalPage }
+			  		&nbsp;&nbsp;
+			  		每页显示${pageBean.pageSize }条  &nbsp;&nbsp;&nbsp;
+			  		总的记录数${pageBean.totalSize } &nbsp;&nbsp;&nbsp;
+			  		<c:if test="${pageBean.currentPage !=1 }">
+			  			<a href="/ClassSystem/SearchClassServlet?currentPage=1">首页</a>
+						| <a href="/ClassSystem/SearchClassServlet?currentPage=${pageBean.currentPage-1 }">上一页</a>
+			  		</c:if>
+			  		
+			  		<c:forEach begin="1" end="${pageBean.totalPage }" var="i">
+			  			<c:if test="${pageBean.currentPage == i }">
+			  				${i }
+			  			</c:if>
+			  			<c:if test="${pageBean.currentPage != i }">
+			  				<a href="/ClassSystem/SearchClassServlet?currentPage=${i }">${i }</a>
+			  			</c:if>
+			  		
+			  		</c:forEach>
+			  		
+			  		
+			  		<c:if test="${pageBean.currentPage !=pageBean.totalPage }">
+			  			<a href="/ClassSystem/SearchClassServlet?currentPage=${pageBean.currentPage+1 }">下一页</a> | 
+			  			<a href="/ClassSystem/SearchClassServlet?currentPage=${pageBean.totalPage }">尾页</a>
+			  		</c:if>
+			  	</td>
+			  </tr>
+		  </table>
+	  </form>
+
+
+</div>
 <div class="top-order">
     <label id="time" ></label><label class="count">您好，用户${sessionScope.User.name}</label><button class="ex">退出</button>
 </div>
 <div class="bottom-change">
 </div>
 </body>
+
 </html>

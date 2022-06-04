@@ -228,13 +228,22 @@ display:block;
                 }
             })
             $(".a1>li:nth-child(1)").click(function () {
-            	window.location.replace("http://localhost:8080/ClassSystem/AnounServlet");
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
             })
             $(".a1>li:nth-child(2)").click(function () {
-                    window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
-                })
-                $(".a>li:nth-child(1)").click(function () {
-                window.location.replace("http://localhost:8080/ClassSystem/Index/Index.jsp");
+                window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
+            })
+            $(".a2>li:nth-child(1)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Class/Slist.jsp");
+            })
+            $(".a2>li:nth-child(2)").click(function () {
+                window.location.replace(" http://localhost:8080/ClassSystem/Index/Class/list.jsp");
+            })
+             $(".a3>li:nth-child(1)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Score/Index.jsp");
+            })
+            $(".a3>li:nth-child(2)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Score/input.jsp");
             })
                 var page=1;
             $(".pp").click(function () {
@@ -407,15 +416,23 @@ else
     	    else{
     	    	$(".next-page").css("opacity","1");
     	    }
-    	    $(".last-page").click(function () {
-    	    	tp=tp-1;
-            	$.post( "http://localhost:8080/ClassSystem/AnounServlet",{"anpage":tp});
-            	window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
+    	    $(".a1>li:nth-child(1)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
             })
-            $(".next-page").click(function () {
-            	tp=tp+1;
-            	$.post( "http://localhost:8080/ClassSystem/AnounServlet",{"anpage":tp});
-            	window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/Anounce.jsp");
+            $(".a1>li:nth-child(2)").click(function () {
+                window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
+            })
+            $(".a2>li:nth-child(1)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Class/Slist.jsp");
+            })
+            $(".a2>li:nth-child(2)").click(function () {
+                window.location.replace(" http://localhost:8080/ClassSystem/Index/Class/list.jsp");
+            })
+             $(".a3>li:nth-child(1)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Score/Index.jsp");
+            })
+            $(".a3>li:nth-child(2)").click(function () {
+                window.location.replace("http://localhost:8080/ClassSystem/Index/Score/input.jsp");
             })
     })
     </script>
