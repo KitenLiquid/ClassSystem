@@ -4,9 +4,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>公告</title>
+<title>创建公告</title>
 <style>
-        body{
+.create{
+position: absolute;
+right:30%;
+top:40%;
+}
+        .showall{
+            position: absolute;
+            top:35%;
+            left: 40%;
+            background: #ffffff;
+            width: 400px;
+            height: 200px;
+            border:4px solid #000000;
+            border-radius:  25px 25px 25px 25px;
+            text-align: center;
+            line-height: 200px;
+            font-size: 35px;
+            color: #ff0000;
+        }
+body{
             font-size: 15px;
             font-family: "Microsoft JhengHei Light";
         }
@@ -112,33 +131,25 @@
             right: 0;
             bottom: 150px;
         }
-        .introduce{
-        position: absolute;
-        left:25%;
-        top: 20%;
-        font-size: 25px;
-        line-height:50px;
+        .cr{
+           position: absolute;
+            right: 350px;
+            bottom: -100px;
         }
-        label{
-        font-weight: 600;
-        }
-        .epd{ 
+        .nno{
         position: absolute;
-        left:40%;
-        top: 25%;
-        background-color: #ffffff;
-		border:1px solid #2c3850;
-		box-shadow: 10px 10px 10px -4px rgb(0,0,0);
-		border-radius:20px 20px 20px 20px;
-        opacity:0;
-        width:500px; 
-        height:500px
+        right: 350px;
+        bottom: 100px;
         }
-        .ty{
+        .nname{
         position: absolute;
-        left:20%;
-        font-size:20px;
-        line-height:40px;
+        right: 350px;
+        bottom: 60px;
+        }
+        .ncontent{
+        position: absolute;
+        right:260px;
+        bottom: -50px;
         }
     </style>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -180,20 +191,12 @@
             $(".a1>li:nth-child(1)").click(function () {
                 window.location.replace("http://localhost:8080/ClassSystem/AnounServlet");
             })
-            $(".a1>li:nth-child(2)").click(function () {
-                window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
-            })
-            $(".a>li:nth-child(1)").click(function () {
+            	$(".a1>li:nth-child(2)").click(function () {
+                    window.location.replace(" http://localhost:8080/ClassSystem/Index/Anounce/CreateAnounce.jsp");
+                })
+                $(".a>li:nth-child(1)").click(function () {
                 window.location.replace("http://localhost:8080/ClassSystem/Index/Index.jsp");
             })
-        	var index;
-        	$(".edit").click(function () {
-        		index=$(this).val();
-        		$(".epd").css("opacity","1");
-            });
-        	$(".cancel").click(function () {
-        		$(".epd").css("opacity","0");
-            });
         })
     </script>
     <script type="text/javascript">
@@ -215,7 +218,15 @@
     </script>
 </head>
 <body>
-<h1>管理员信息</h1>
+<div class="create">
+<form action="../../CreateServlet" method=post>
+<div class="nno"><label>编号</label><input type="text"  name="nno"  onkeyup="this.value=this.value.replace(/[^\d]/g,'')" required="required"></div>
+<div class="nname"><label>名称</label><input type="text"  name="nname" required="required"></div>
+<div class="ncontent"><label>内容</label><textarea cols="35" rows="5" name="ncontent" required="required"></textarea></div>
+<div class="cr"><input type="submit" value="创建"></div>
+</form>
+</div>
+<h1>公告发布</h1>
 <div class="left-order">
     <h2>课程管理系统</h2>
     <ul class="a">
@@ -228,6 +239,7 @@
         <li>基本信息管理</li>
         <ul class="a2">
             <li>学生信息</li>
+            <li>课程信息</li>
             <li>老师信息</li>
         </ul>
         <li>成绩管理</li>
@@ -237,33 +249,6 @@
         </ul>
     </ul>
 </div>
-
-
-<div class="introduce">
-<label>账户：</label>${sessionScope.User.name}<br>
-<label>年龄：</label>${sessionScope.User.age}<br>
-<label>民族：</label>${sessionScope.User.eg}<br>
-<label>管理员ID：</label>${sessionScope.User.index}<br>
-<label>密码：</label>****************<br>
-<label>自我介绍：</label>${sessionScope.User.si}<br>
-<button class="edit">修改个人信息</button>
-</div>
-
-<div class="epd">
-<h2>信息修改</h2>
-<div class='ty'>
-<form action="http://localhost:8080/ClassSystem/editChange" method=post>
-<label>账户：</label><input type='text' name='acount' value='${sessionScope.User.name}'><br>
-<label>年龄：</label><input type='text' name='age' value='${sessionScope.User.age}'><br>
-<label>民族：</label><input type='text' name='eg' value='${sessionScope.User.eg}'><br>
-<label>管理员ID：</label>${sessionScope.User.index}<br><input type="hidden" name='id' value='${sessionScope.User.index}'>
-<label>密码：</label><input type='password' name='ps' value='${sessionScope.User.password}'><br>
-<label>自我介绍：</label><input type='text' name='si' value='${sessionScope.User.si}'><br>
-<input type="submit" value="确认修改">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button class='cancel'>取消</button><br>
-</form>
-</div>
-</div>
-
 <div class="top-order">
     <label id="time" ></label><label class="count">您好，用户${sessionScope.User.name}</label><button class="ex">退出</button>
 </div>
