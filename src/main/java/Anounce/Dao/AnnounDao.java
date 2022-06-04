@@ -16,8 +16,8 @@ import JNDIutil.JNDIUtils;
 public class AnnounDao {
 	Connection con=null;
 	Anou an=null;
-	public AnnounDao(Anou an) throws NamingException, SQLException {
-		con=JNDIUtils.Sendcon();
+	public AnnounDao(Anou an) throws Exception {
+		con=JNDIUtils.getConnection();
 		this.an=an;
 	}
 	public boolean Insert() throws SQLException {

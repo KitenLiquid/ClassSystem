@@ -12,8 +12,8 @@ import JNDIutil.JNDIUtils;
 
 public class LoginDao {
 	Connection con=null;
-	public LoginDao() throws NamingException, SQLException {
-		con=JNDIUtils.Sendcon();
+	public LoginDao() throws Exception {
+		con=JNDIUtils.getConnection();
 	}
 	public boolean[] WhetherLogin(User user) throws SQLException {
 		boolean Flag[]=new boolean[2];
