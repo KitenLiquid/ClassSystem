@@ -152,7 +152,7 @@ body{
         bottom: -50px;
         }
     </style>
-    <script src="JQ.js"></script>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
         $(function(){
             var f1=false,f2=false,f3=false;
