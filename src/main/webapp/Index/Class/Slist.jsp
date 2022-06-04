@@ -286,7 +286,10 @@
 					<td><%=Slist.get(i).getAge() %></td>
 					 <td><a href="SEditServlet?ClassNumber=<%=Slist.get(i).getClassNumber() %>&Number=<%=Slist.get(i).getNumber() %>">更新</a>&nbsp;&nbsp;<a href="#" onclick="doDelete(<%=Slist.get(i).getClassNumber() %>,<%=Slist.get(i).getNumber() %>)">删除</a></td>
 				  </tr>
-		<% i++;}%>
+		<% i++;}
+		  else{
+				request.getRequestDispatcher("/SearchStudentServlet").forward(request, response);
+			}%>
 	 <%PageBean<Student> pageBean=(PageBean<Student>)request.getAttribute("pageBean");%>
 			   <tr>
 			  	<td colspan="8">

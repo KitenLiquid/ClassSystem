@@ -281,7 +281,10 @@
 					<td><%=list.get(i).getPhoneNumber() %></td>
 					 <td><a href="EditServlet?ClassNumber=<%=list.get(i).getClassNumber() %>">更新</a>&nbsp;&nbsp;<a href="#" onclick="doDelete(<%=list.get(i).getClassNumber() %>)">删除</a></td>
 				  </tr>
-		<% i++;}%>
+		<% i++;}
+		else{
+			request.getRequestDispatcher("/SearchClassServlet").forward(request, response);
+		}%>
 	<tr>
 	 <%PageBean<classxx> pageBean=(PageBean<classxx>)request.getAttribute("pageBean");%>
 			   <tr>
