@@ -17,7 +17,7 @@ import Class.service.classServiceImpl;
 public class studeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+         doPost(req, resp);
     }
 
     @Override

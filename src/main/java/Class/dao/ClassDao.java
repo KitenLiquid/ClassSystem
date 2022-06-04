@@ -7,19 +7,22 @@ import Class.bean.Student;
 import Class.bean.classaa;
 import Class.bean.classxx;
 
-public interface ClassDao {//接口
-		public void update(classxx Class);//修改
-		public classxx queryByNumber(int ClassNumber);//查询bynum
-		public List<classxx> queryAll() throws SQLException ;//queryall
-		public List<classxx> search(String ClassName , String TName)  throws SQLException;//模糊查询
+public interface ClassDao {//鎺ュ彛
+	int PAGE_SIZE = 6;
+	 public int findCount()throws SQLException ;
+	public int SfindCount()throws SQLException ;
+		public void update(classxx Class);//淇敼
+		public classxx queryByNumber(int ClassNumber);//鏌ヨbynum
+		public List<classxx> queryAll(int currentPage) throws SQLException ;//queryall
+		public List<classxx> search(String ClassName , String TName,int currentPage)  throws SQLException;//妯＄硦鏌ヨ
 		public classaa insert(classaa class1);
 		public classaa insert1(classaa teacher);
 		public void delete(int number);
 		public void delete1(int number);
-		public void Supdate(Student stu);//修改
-		public Student SqueryByNumber(int ClassNumber,int Number);//查询bynum
-		public List<Student> SqueryAll() throws SQLException ;//queryall
-		public List<Student> Ssearch(String ClassName , String Name,String Sex)  throws SQLException;//模糊查询
+		public void Supdate(Student stu);//淇敼
+		public Student SqueryByNumber(int ClassNumber,int Number);//鏌ヨbynum
+		public List<Student> SqueryAll(int currentPage) throws SQLException ;//queryall
+		public List<Student> Ssearch(String ClassName , String Name,String Sex,int currentPage)  throws SQLException;//妯＄硦鏌ヨ
 		public Student insert2(Student student);
 		public Student insert3(Student student);
 		public void delete3(int number,int ClassNumber);

@@ -42,20 +42,20 @@ public class SUpdateServlet extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 		try {
-			//1. »ñÈ¡¿Í»§¶ËÌá½»ÉÏÀ´µÄÊı¾İ
+			//1. è·å–å®¢æˆ·ç«¯æäº¤ä¸Šæ¥çš„æ•°æ®
 			int Number = Integer.parseInt(request.getParameter("Number"));
 			int ClassNumber = Integer.parseInt(request.getParameter("ClassNumber"));
 			String Name = request.getParameter("Name");
 			String Sex = request.getParameter("Sex");
 			int Age = Integer.parseInt(request.getParameter("Age"));
-			//2. Ìí¼Óµ½Êı¾İ¿â
+			//2. æ·»åŠ åˆ°æ•°æ®åº“
 			Student Stu = new Student(ClassNumber,Name,Number,Sex,Age);
 			
-			//2. ¸üĞÂÊı¾İ¿âÊı¾İ
+			//2. æ›´æ–°æ•°æ®åº“æ•°æ®
 			classService service = new classServiceImpl();
 			service.Supdate(Stu);
 			
-			//3. Ìø×ª½çÃæ
+			//3. è·³è½¬ç•Œé¢
 			request.getRequestDispatcher("SListServlet").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

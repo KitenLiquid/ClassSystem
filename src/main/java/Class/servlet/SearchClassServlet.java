@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Class.bean.PageBean;
 import Class.bean.classxx;
 import Class.service.classService;
 import Class.service.classServiceImpl;
@@ -20,7 +21,7 @@ import Class.service.classServiceImpl;
 @WebServlet("/SearchClassServlet")
 
 public class SearchClassServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	 private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -46,18 +47,25 @@ public class SearchClassServlet extends HttpServlet {
 		try {
 			String ClassName=  request.getParameter("ClassName");
 			String TName=  request.getParameter("TName");
-			//2. ÕÒserviceÈ¥²éÑ¯
-			classService service = new classServiceImpl();
-			List<classxx> list = service.search(ClassName, TName);
-			
-			System.out.println("listµÄ´óĞ¡ÊÇ£º"+list.size());
-			for (classxx Class : list) {
-				System.out.println("ClassName="+ClassName);
+			int currentPage;
+
+			if (request.getParameter("currentPage") == null){
+			    currentPage = 1;
+			}else {
+			    /*è·å–å½“å‰é¡µ*/
+			    currentPage = Integer.parseInt(request.getParameter("currentPage"));
 			}
-			
+			//2. æ‰¾serviceå»æŸ¥è¯¢
+			classService service = new classServiceImpl();
+			PageBean<classxx> pageBean = service.search(ClassName, TName, currentPage);
+			List<classxx> list=(List<classxx>)pageBean.getList();
+			System.out.println("listçš„å¤§å°æ˜¯ï¼š"+list.size());
+			System.out.println("currentPageï¼š"+currentPage);
+			System.out.println("TotalPageï¼š"+pageBean.getTotalPage());
+			request.setAttribute("pageBean", pageBean);
 			request.setAttribute("list", list);
 			
-			//3. Ìø×ª½çÃæ¡£ÁĞ±í½çÃæ
+			//3. è·³è½¬ç•Œé¢ã€‚åˆ—è¡¨ç•Œé¢
 			request.getRequestDispatcher("/Index/Class/list.jsp").forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();

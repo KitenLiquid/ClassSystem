@@ -54,8 +54,9 @@ private static final long serialVersionUID = 1L;
 			session.setAttribute("student1", student1);
 			request.getRequestDispatcher("SListServlet").include(request, response);
 	    }else {
-			out.print("相关信息已存在，请重新输入");
-			response.setHeader("refresh", "3;url=Index/Class/stuinsert.jsp");	
+	    	request.setAttribute("message", "学生已存在");
+	    	request.getRequestDispatcher("/Index/Class/stuinsert.jsp").forward(request, response);
+	
 		}
 }
 

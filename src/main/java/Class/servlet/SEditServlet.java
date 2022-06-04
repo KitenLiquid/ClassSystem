@@ -40,17 +40,17 @@ public class SEditServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			//1. ½ÓÊÕid
+			//1. æ¥æ”¶id
 			int ClassNumber = Integer.parseInt(request.getParameter("ClassNumber"));
 			int Number = Integer.parseInt(request.getParameter("Number"));
-			//2. ²éÑ¯Ñ§ÉúÊı¾İ
+			//2. æŸ¥è¯¢å­¦ç”Ÿæ•°æ®
 			classService service = new classServiceImpl();
 			Student Student = service.SqueryByNumber(ClassNumber, Number);
 			
-			//3. ÏÔÊ¾Êı¾İ
-			//´æÊı¾İ
+			//3. æ˜¾ç¤ºæ•°æ®
+			//å­˜æ•°æ®
 			request.setAttribute("Student", Student);
-			//Ìø×ª
+			//è·³è½¬
 			request.getRequestDispatcher("/Index/Class/Supdate.jsp").forward(request, response);
 			
 		} catch (SQLException e) {

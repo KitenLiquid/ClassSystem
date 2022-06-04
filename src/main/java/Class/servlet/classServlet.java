@@ -53,8 +53,8 @@ private static final long serialVersionUID = 1L;
 			session.setAttribute("class1", class1);
 			request.getRequestDispatcher("ClassListServlet").include(request, response);
 	    }else {
-			out.print("课程已存在，请重新输入");
-			response.setHeader("refresh", "3;url=Index/Class/insert.jsp");	
+	    	request.setAttribute("message", "课程已存在");
+	    	request.getRequestDispatcher("/Index/Class/insert.jsp").forward(request, response);
 		}
 }
 

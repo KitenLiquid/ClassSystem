@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Class.bean.PageBean;
 import Class.bean.Student;
 import Class.bean.classxx;
 import Class.service.classService;
@@ -44,14 +45,22 @@ public class SListServlet extends HttpServlet {
 
 		
 		try {
-		
-			//1. ²éÑ¯³öÀ´ËùÓĞµÄÑ§Éú
+			int currentPage;
+
+			if (request.getParameter("currentPage") == null){
+			    currentPage = 1;
+			}else {
+			    /*è·å–å½“å‰é¡µ*/
+			    currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			}
 			classService service = new classServiceImpl();
-			List<Student> Slist = service.SqueryAll();
+			PageBean pageBean = service.SqueryAll(currentPage);
+			List<Student> Slist=(List<Student>)pageBean.getList();
 			
-			//2. ÏÈ°ÑÊı¾İ´æ´¢µ½×÷ÓÃÓòÖĞ
+			//2. å…ˆæŠŠæ•°æ®å­˜å‚¨åˆ°ä½œç”¨åŸŸä¸­
+			request.setAttribute("pageBean",pageBean);
 			request.setAttribute("Slist", Slist);
-			//3. Ìø×ªÒ³Ãæ
+			//3. è·³è½¬é¡µé¢
 			request.getRequestDispatcher("/Index/Class/Slist.jsp").forward(request, response);
 			
 		} catch (SQLException e) {

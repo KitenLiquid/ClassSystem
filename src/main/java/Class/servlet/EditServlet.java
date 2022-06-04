@@ -40,17 +40,17 @@ public class EditServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			//1. ½ÓÊÕid
+			//1. æ¥æ”¶id
 			int ClassNumber = Integer.parseInt(request.getParameter("ClassNumber"));
 			
-			//2. ²éÑ¯Ñ§ÉúÊı¾İ
+			//2. æŸ¥è¯¢å­¦ç”Ÿæ•°æ®
 			classService service = new classServiceImpl();
 			classxx Class = service.queryByNumber(ClassNumber);
 			
-			//3. ÏÔÊ¾Êı¾İ
-			//´æÊı¾İ
+			//3. æ˜¾ç¤ºæ•°æ®
+			//å­˜æ•°æ®
 			request.setAttribute("Class", Class);
-			//Ìø×ª
+			//è·³è½¬
 			request.getRequestDispatcher("/Index/Class/update.jsp").forward(request, response);
 			
 		} catch (SQLException e) {

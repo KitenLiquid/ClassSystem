@@ -19,7 +19,7 @@ import JNDIutil.JNDIUtils;
 
 
 public class ClassDaoImpl implements ClassDao{
-	Connection conn = null;
+	 Connection conn = null;
     PreparedStatement stmt = null;
     ResultSet rs = null;
     PreparedStatement stmt2=null;
@@ -40,24 +40,26 @@ public class ClassDaoImpl implements ClassDao{
 			stmt2.setInt(2, Class.getPhoneNumber());
 			stmt2.setInt(3, Class.getClassNumber());
 			stmt2.executeUpdate();
+			stmt2.close();
 					
 		} catch (Exception e) {
             e.printStackTrace();
         }
+		JNDIUtils.release(rs, stmt, conn);
 	}
 
 	@Override
 	public classxx queryByNumber(int ClassNumber) {
 		System.out.println(ClassNumber);
         try {
-            //JNDI DataSourceÊı¾İÔ´·½Ê½
+            //JNDI DataSourceæ•°æ®æºæ–¹å¼
             conn = JNDIUtils.getConnection();
-            //½«sql·¢ËÍ¸øÊı¾İ¿â½øĞĞ±àÒë
+            //å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
             String sql = "SELECT class.ClassName,class.ClassNumber,class.APnumber,teacher.TName,teacher.PhoneNumber FROM class,teacher where class.ClassNumber=teacher.ClassNumber and class.ClassNumber=?";
             stmt = conn.prepareStatement(sql);
-            //ÉèÖÃ²ÎÊı
+            //è®¾ç½®å‚æ•°
             stmt.setInt(1, ClassNumber);
-            //Ö´ĞĞsql
+            //æ‰§è¡Œsql
             rs = stmt.executeQuery();
             if (rs.next()) {
                 classxx classxx = new classxx();
@@ -71,16 +73,19 @@ public class ClassDaoImpl implements ClassDao{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        JNDIUtils.release(rs, stmt, conn);
         return null;
 	}
 	
 	@Override
-	public List<classxx> queryAll()  throws SQLException {
+	public List<classxx> queryAll(int currentPage)  throws SQLException {
 		List<classxx> classxx=new ArrayList<classxx>();
 		try {
 			conn = JNDIUtils.getConnection();
-			String sql = "SELECT class.ClassName,class.ClassNumber,class.APnumber,teacher.TName,teacher.PhoneNumber FROM class,teacher where class.ClassNumber=teacher.ClassNumber";
+			String sql = "SELECT class.ClassName,class.ClassNumber,class.APnumber,teacher.TName,teacher.PhoneNumber FROM class,teacher where class.ClassNumber=teacher.ClassNumber limit ? offset ?";
 			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, PAGE_SIZE);
+			stmt.setInt(2, (currentPage-1)*PAGE_SIZE);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				classxx classx = new classxx();
@@ -95,11 +100,12 @@ public class ClassDaoImpl implements ClassDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		JNDIUtils.release(rs, stmt, conn);
 		return classxx;
 	}
 
 	@Override
-	public List<classxx> search(String ClassName, String TName) throws SQLException {
+	public List<classxx> search(String ClassName, String TName,int currentPage) throws SQLException {
 		List<classxx> classxx=new ArrayList<classxx>();	
 		String sql = "SELECT class.ClassName,class.ClassNumber,class.APnumber,teacher.TName,teacher.PhoneNumber FROM class,teacher where class.ClassNumber=teacher.ClassNumber and 1=1";
 		if (ClassName != null && !"".equals(ClassName)) {
@@ -109,11 +115,14 @@ public class ClassDaoImpl implements ClassDao{
 		if (TName != null && !"".equals(TName)) {
 			sql = sql + " and TName like '%" + TName + "%'";
 		}
+		sql=sql+" limit "+(currentPage-1)*PAGE_SIZE+","+PAGE_SIZE;
 		try {
 			
 			System.out.println(TName);
 			conn = JNDIUtils.getConnection();
+
 			stmt = conn.prepareStatement(sql);
+		
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				classxx classx = new classxx();
@@ -129,6 +138,7 @@ public class ClassDaoImpl implements ClassDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		JNDIUtils.release(rs, stmt, conn);
 		return classxx;
 	}
 
@@ -136,25 +146,26 @@ public class ClassDaoImpl implements ClassDao{
 		classaa existUser = null;
         try {
 			conn = JNDIUtils.getConnection();
-            String sql = "select * from class where ClassName=?"; //Êı¾İ¿â±àÒëÊ±
-            stmt = conn.prepareStatement(sql);	//½«sql·¢ËÍ¸øÊı¾İ¿â½øĞĞ±àÒë
+            String sql = "select * from class where ClassName=?"; //æ•°æ®åº“ç¼–è¯‘æ—¶
+            stmt = conn.prepareStatement(sql);	//å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
             
-            //ÉèÖÃsql²ÎÊı
+            //è®¾ç½®sqlå‚æ•°
             String name=class1.getClassName();
             int number=class1.getClassNumber();
             int AP=class1.getAPnumber();
-            stmt.setString(1, class1.getClassName());	//´«ÈëÊı¾İÖµ£¬²»»á×÷Îª¹Ø¼ü×Ö --·ÀÖ¹×¢Èë           
-            rs = stmt.executeQuery();			//Ö´ĞĞsql                             
+            stmt.setString(1, class1.getClassName());	//ä¼ å…¥æ•°æ®å€¼ï¼Œä¸ä¼šä½œä¸ºå…³é”®å­— --é˜²æ­¢æ³¨å…¥           
+            rs = stmt.executeQuery();			//æ‰§è¡Œsql                             
             if(rs.next()) {
-            	System.out.println("¸Ã¿Î³ÌÒÑ¾­´æÔÚ£¬ÇëÖØĞÂÊäÈë£¡");      
+            	System.out.println("è¯¥è¯¾ç¨‹å·²ç»å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥ï¼");      
             }
-            else {//¿Î³Ì²»´æÔÚ
-				//Ìí¼Ó¿Î³Ì£¬Ğ´ÈëÊı¾İ¿â
+            else {//è¯¾ç¨‹ä¸å­˜åœ¨
+				//æ·»åŠ è¯¾ç¨‹ï¼Œå†™å…¥æ•°æ®åº“
             	stmt3=conn.createStatement();
             	sql="insert into class(ClassName,ClassNumber,APnumber) values('"+name+"','"+number+"','"+AP+"')";
             	int row=stmt3.executeUpdate(sql);
             	System.out.println("a"); 
-            	existUser=new classaa(name,number,AP);     	
+            	existUser=new classaa(name,number,AP);    
+            	stmt3.close();
 			}
         } catch (Exception e) {
         	
@@ -162,6 +173,7 @@ public class ClassDaoImpl implements ClassDao{
         }
         
         System.out.println(existUser);    
+        JNDIUtils.release(rs, stmt, conn);
         return existUser;
 
 	}
@@ -176,13 +188,13 @@ public class ClassDaoImpl implements ClassDao{
 	            String TName=teacher.getTName();
 			    int ClassNumber=teacher.getClassNumber();
 			    int PhoneNumber=teacher.getPhoneNumber();
-	            //ÉèÖÃ²ÎÊı
+	            //è®¾ç½®å‚æ•°
 	            stmt.setInt(1, ClassNumber);
-	            //Ö´ĞĞsql
+	            //æ‰§è¡Œsql
 	            rs = stmt.executeQuery();
 	            if(rs.next()) {
 	            	
-	            	System.out.println("¸Ã¿Î³ÌÀÏÊ¦ÒÑ´æÔÚ");
+	            	System.out.println("è¯¥è¯¾ç¨‹è€å¸ˆå·²å­˜åœ¨");
 	            }
 	            else {
 	            	stmt3=conn.createStatement();
@@ -190,6 +202,7 @@ public class ClassDaoImpl implements ClassDao{
 	            	int row=stmt3.executeUpdate(sql);
 	            	System.out.println("k"); 
 	            	existUser=new classaa(PhoneNumber,TName); 
+	            	stmt3.close();
 	            }
 			    
 			
@@ -197,7 +210,8 @@ public class ClassDaoImpl implements ClassDao{
 			System.out.println(e.toString());
 			// TODO: handle exception
 		}
-		 System.out.println(existUser);    
+		 System.out.println(existUser);  
+		 JNDIUtils.release(rs, stmt, conn);
 	     return existUser;
 
 	}
@@ -205,60 +219,62 @@ public class ClassDaoImpl implements ClassDao{
 	@Override
 	public void delete(int number) {
 		try {
-            //JNDI DataSourceÊı¾İÔ´·½Ê½
+            //JNDI DataSourceæ•°æ®æºæ–¹å¼
             conn = JNDIUtils.getConnection();
-            //½«sql·¢ËÍ¸øÊı¾İ¿â½øĞĞ±àÒë
+            //å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
             String sql = "select * from  class  where ClassNumber=?";
             stmt = conn.prepareStatement(sql);
-            //ÉèÖÃ²ÎÊı
+            //è®¾ç½®å‚æ•°
             stmt.setInt(1, number);
-            //Ö´ĞĞsql
+            //æ‰§è¡Œsql
             rs = stmt.executeQuery();
             if (rs.next()) {    
-                //´æÔÚ¿Î³Ì£¬É¾³ı
+                //å­˜åœ¨è¯¾ç¨‹ï¼Œåˆ é™¤
                 stmt3=conn.createStatement();
             	sql="delete from class where ClassNumber='"+number+"'";
             	stmt3.executeUpdate(sql);
             	System.out.println("b"); 
+            	stmt3.close();
                
             }else {
-            	System.out.println("¿Î³Ì²»´æÔÚ»òÒÑÉ¾³ı");
+            	System.out.println("è¯¾ç¨‹ä¸å­˜åœ¨æˆ–å·²åˆ é™¤");
             }
         } catch (Exception e) {
             e.printStackTrace();
      
     }
-
+		JNDIUtils.release(rs, stmt, conn);
 		
 	}
 
 	@Override
 	public void delete1(int number) {
 		try {
-            //JNDI DataSourceÊı¾İÔ´·½Ê½
+            //JNDI DataSourceæ•°æ®æºæ–¹å¼
             conn = JNDIUtils.getConnection();
-            //½«sql·¢ËÍ¸øÊı¾İ¿â½øĞĞ±àÒë
+            //å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
             String sql = "select * from  teacher  where ClassNumber=?";
             stmt = conn.prepareStatement(sql);
-            //ÉèÖÃ²ÎÊı
+            //è®¾ç½®å‚æ•°
             stmt.setInt(1, number);
-            //Ö´ĞĞsql
+            //æ‰§è¡Œsql
             rs = stmt.executeQuery();
             if (rs.next()) {    
-                //´æÔÚ¿Î³Ì£¬É¾³ı
+                //å­˜åœ¨è¯¾ç¨‹ï¼Œåˆ é™¤
                 stmt3=conn.createStatement();
             	sql="delete from teacher where ClassNumber='"+number+"'";
             	stmt3.executeUpdate(sql);
             	System.out.println("m"); 
+            	stmt3.close();
                
             }else {
-            	System.out.println("¸Ã¿Î³ÌÀÏÊ¦²»´æÔÚ»òÒÑÉ¾³ı");
+            	System.out.println("è¯¥è¯¾ç¨‹è€å¸ˆä¸å­˜åœ¨æˆ–å·²åˆ é™¤");
             }
         } catch (Exception e) {
             e.printStackTrace();
      
     }
-
+		JNDIUtils.release(rs, stmt, conn);
 		
 	}
 
@@ -278,26 +294,27 @@ public class ClassDaoImpl implements ClassDao{
 			stmt2.setInt(1, stu.getClassNumber());
 			stmt2.setInt(2, stu.getNumber());
 			stmt2.executeUpdate();
+			stmt2.close();
 					
 		} catch (Exception e) {
             e.printStackTrace();
         }
-		
+		JNDIUtils.release(rs, stmt, conn);
 	}
 
 	@Override
 	public Student SqueryByNumber(int ClassNumber,int Number) {
 		System.out.println(Number);
         try {
-            //JNDI DataSourceÊı¾İÔ´·½Ê½
+            //JNDI DataSourceæ•°æ®æºæ–¹å¼
             conn = JNDIUtils.getConnection();
-            //½«sql·¢ËÍ¸øÊı¾İ¿â½øĞĞ±àÒë
+            //å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
             String sql = "select class.ClassNumber,ClassName,Name,student.Number,Sex,Age From class,student,stuclass where class.ClassNumber=stuclass.ClassNumber and stuclass.Number=student.Number and stuclass.Number=? and stuclass.ClassNumber=?";
             stmt = conn.prepareStatement(sql);
-            //ÉèÖÃ²ÎÊı
+            //è®¾ç½®å‚æ•°
             stmt.setInt(1, Number);
             stmt.setInt(2, ClassNumber);
-            //Ö´ĞĞsql
+            //æ‰§è¡Œsql
             rs = stmt.executeQuery();
             if (rs.next()) {
                 Student stu = new Student();
@@ -312,16 +329,19 @@ public class ClassDaoImpl implements ClassDao{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        JNDIUtils.release(rs, stmt, conn);
         return null;
 	}
 
 	@Override
-	public List<Student> SqueryAll() throws SQLException {
+	public List<Student> SqueryAll(int currentPage) throws SQLException {
 		List<Student> stu=new ArrayList<Student>();
 		try {
 			conn = JNDIUtils.getConnection();
-			String sql = "select class.ClassNumber,ClassName,Name,student.Number,Sex,Age From class,student,stuclass where class.ClassNumber=stuclass.ClassNumber and stuclass.Number=student.Number";
+			String sql = "select class.ClassNumber,ClassName,Name,student.Number,Sex,Age From class,student,stuclass where class.ClassNumber=stuclass.ClassNumber and stuclass.Number=student.Number limit ? offset ?";
 			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, PAGE_SIZE);
+			stmt.setInt(2, (currentPage-1)*PAGE_SIZE);
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				Student student = new Student();
@@ -337,11 +357,12 @@ public class ClassDaoImpl implements ClassDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		JNDIUtils.release(rs, stmt, conn);
 		return stu;
 	}
 
 	@Override
-	public List<Student> Ssearch(String ClassName, String Name, String Sex) throws SQLException {
+	public List<Student> Ssearch(String ClassName, String Name, String Sex,int currentPage) throws SQLException {
 		List<Student> stu=new ArrayList<Student>();	
 		String sql = "select class.ClassNumber,ClassName,Name,student.Number,Sex,Age From class,student,stuclass where class.ClassNumber=stuclass.ClassNumber and stuclass.Number=student.Number and 1=1";
 		if (ClassName != null && !"".equals(ClassName)) {
@@ -354,11 +375,13 @@ public class ClassDaoImpl implements ClassDao{
 		if (Sex != null && !"".equals(Sex)) {
 			sql = sql + " and Sex like '%" + Sex + "%'";
 		}
+		sql=sql+" limit "+(currentPage-1)*PAGE_SIZE+","+PAGE_SIZE;
 		try {
 			
 			System.out.println(Name);
 			conn = JNDIUtils.getConnection();
 			stmt = conn.prepareStatement(sql);
+
 			rs = stmt.executeQuery();
 			while(rs.next()) {
 				Student student = new Student();
@@ -375,6 +398,7 @@ public class ClassDaoImpl implements ClassDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		JNDIUtils.release(rs, stmt, conn);
 		return stu;
 	}
 
@@ -383,26 +407,27 @@ public class ClassDaoImpl implements ClassDao{
 		Student existUser = null;
         try {
 			conn = JNDIUtils.getConnection();
-            String sql = "select * from student where Name=?"; //Êı¾İ¿â±àÒëÊ±
-            stmt = conn.prepareStatement(sql);	//½«sql·¢ËÍ¸øÊı¾İ¿â½øĞĞ±àÒë
+            String sql = "select * from student where Name=?"; //æ•°æ®åº“ç¼–è¯‘æ—¶
+            stmt = conn.prepareStatement(sql);	//å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
             
-            //ÉèÖÃsql²ÎÊı
+            //è®¾ç½®sqlå‚æ•°
             String Name=student.getName();
             int Number=student.getNumber();
             int Age=student.getAge();
             String Sex=student.getSex();
-            stmt.setString(1, student.getName());	//´«ÈëÊı¾İÖµ£¬²»»á×÷Îª¹Ø¼ü×Ö --·ÀÖ¹×¢Èë           
-            rs = stmt.executeQuery();			//Ö´ĞĞsql                             
+            stmt.setString(1, student.getName());	//ä¼ å…¥æ•°æ®å€¼ï¼Œä¸ä¼šä½œä¸ºå…³é”®å­— --é˜²æ­¢æ³¨å…¥           
+            rs = stmt.executeQuery();			//æ‰§è¡Œsql                             
             if(rs.next()) {
-            	System.out.println("¸ÃÑ§ÉúÒÑ¾­´æÔÚ£¬ÇëÖØĞÂÊäÈë£¡");      
+            	System.out.println("è¯¥å­¦ç”Ÿå·²ç»å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥ï¼");      
             }
-            else {//Ñ§Éú²»´æÔÚ
-				//Ìí¼ÓÑ§Éú£¬Ğ´ÈëÊı¾İ¿â
+            else {//å­¦ç”Ÿä¸å­˜åœ¨
+				//æ·»åŠ å­¦ç”Ÿï¼Œå†™å…¥æ•°æ®åº“
             	stmt3=conn.createStatement();
             	sql="insert into student(Name,Number,Sex,Age) values('"+Name+"','"+Number+"','"+Sex+"','"+Age+"')";
             	int row=stmt3.executeUpdate(sql);
             	System.out.println("p"); 
-            	existUser=new Student(Name,Number);     	
+            	existUser=new Student(Name,Number);    
+            	stmt3.close();
 			}
         } catch (Exception e) {
         	
@@ -410,6 +435,7 @@ public class ClassDaoImpl implements ClassDao{
         }
         
         System.out.println(existUser);    
+        JNDIUtils.release(rs, stmt, conn);
         return existUser;
 
 	}
@@ -420,26 +446,28 @@ public class ClassDaoImpl implements ClassDao{
 		try {   
 			    int Number=student.getNumber();
 			    int ClassNumber=student.getClassNumber();
-			  //JNDI DataSourceÊı¾İÔ´·½Ê½
+			  //JNDI DataSourceæ•°æ®æºæ–¹å¼
 	            conn = JNDIUtils.getConnection();
-	            //½«sql·¢ËÍ¸øÊı¾İ¿â½øĞĞ±àÒë
+	            //å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
 	            String sql = "select * from  stuclass  where Number=?";
 	            stmt = conn.prepareStatement(sql);
-	            //ÉèÖÃ²ÎÊı
+	            //è®¾ç½®å‚æ•°
 	            stmt.setInt(1, Number);
-	            //Ö´ĞĞsql
+	            //æ‰§è¡Œsql
 	            rs = stmt.executeQuery();
 	            stmt3=conn.createStatement();
 	            sql="insert into stuclass(Number,ClassNumber) values('"+Number+"','"+ClassNumber+"')";
 	            int row=stmt3.executeUpdate(sql);
 	            System.out.println("q"); 
 	            existUser=new Student(Number,ClassNumber); 
+	            stmt3.close();
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			// TODO: handle exception
 		}
-		 System.out.println(existUser);    
+		 System.out.println(existUser);   
+		 JNDIUtils.release(rs, stmt, conn);
 	     return existUser;
 
 	}
@@ -448,28 +476,72 @@ public class ClassDaoImpl implements ClassDao{
 	public void delete3(int number, int ClassNumber) {
 		// TODO Auto-generated method stub
 				try {
-		            //JNDI DataSourceÊı¾İÔ´·½Ê½
+		            //JNDI DataSourceæ•°æ®æºæ–¹å¼
 		            conn = JNDIUtils.getConnection();
-		            //½«sql·¢ËÍ¸øÊı¾İ¿â½øĞĞ±àÒë
+		            //å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
 		            String sql = "select * from  stuclass  where Number=?";
 		            stmt = conn.prepareStatement(sql);
-		            //ÉèÖÃ²ÎÊı
+		            //è®¾ç½®å‚æ•°
 		            stmt.setInt(1, number);
-		            //Ö´ĞĞsql
+		            //æ‰§è¡Œsql
 		            rs = stmt.executeQuery();
 		            if (rs.next()) {    
-		                //´æÔÚÑ§ºÅ¿Î³ÌºÅ£¬É¾³ı
+		                //å­˜åœ¨å­¦å·è¯¾ç¨‹å·ï¼Œåˆ é™¤
 		                stmt3=conn.createStatement();
 		            	sql="delete from stuclass where Number='"+number+"'and ClassNumber='"+ClassNumber+"'";
 		            	stmt3.executeUpdate(sql);
 		            	System.out.println("c"); 
+		            	stmt3.close();
 		               
 		            }
 		        } catch (Exception e) {
 		            e.printStackTrace();
 		    }
-
+				JNDIUtils.release(rs, stmt, conn);
 	}
+
+	@Override
+	public int findCount() throws SQLException {
+		try {
+            //JNDI DataSourceæ•°æ®æºæ–¹å¼
+            conn = JNDIUtils.getConnection();
+            //å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
+            String sql = "select count(*) FROM class,teacher where class.ClassNumber=teacher.ClassNumber"; 
+            stmt = conn.prepareStatement(sql);
+            //æ‰§è¡Œsql
+            rs = stmt.executeQuery();
+           rs.next();
+           int result =rs.getInt(1);
+           return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		JNDIUtils.release(rs, stmt, conn);
+		return 0;
+		
+	}
+
+	@Override
+	public int SfindCount() throws SQLException {
+		try {
+            //JNDI DataSourceæ•°æ®æºæ–¹å¼
+            conn = JNDIUtils.getConnection();
+            //å°†sqlå‘é€ç»™æ•°æ®åº“è¿›è¡Œç¼–è¯‘
+            String sql = "select count(*) From class,student,stuclass where class.ClassNumber=stuclass.ClassNumber and stuclass.Number=student.Number"; 
+            stmt = conn.prepareStatement(sql);
+            //æ‰§è¡Œsql
+            rs = stmt.executeQuery();
+           rs.next();
+           int result =rs.getInt(1);
+           return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		JNDIUtils.release(rs, stmt, conn);
+		return 0;
+	}
+
+
 	
 
 	

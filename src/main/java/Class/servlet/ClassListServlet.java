@@ -9,7 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import Class.bean.PageBean;
 import Class.bean.classxx;
 import Class.service.classService;
 import Class.service.classServiceImpl;
@@ -19,7 +19,7 @@ import Class.service.classServiceImpl;
  */
 @WebServlet("/ClassListServlet")
 public class ClassListServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	 private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,14 +43,22 @@ public class ClassListServlet extends HttpServlet {
 
 		
 		try {
-		
-			//1. ²éÑ¯³öÀ´ËùÓĞ
-			classService service = new classServiceImpl();
-			List<classxx> list = service.queryAll();
+			int currentPage;
+
+			if (request.getParameter("currentPage") == null){
+			    currentPage = 1;
+			}else {
+			    /*è·å–å½“å‰é¡µ*/
+			    currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			}
 			
-			//2. ÏÈ°ÑÊı¾İ´æ´¢µ½×÷ÓÃÓòÖĞ
+			classService service = new classServiceImpl();
+			PageBean pageBean = service.queryAll(currentPage);
+			List<classxx> list=(List<classxx>)pageBean.getList();
+			//2. å…ˆæŠŠæ•°æ®å­˜å‚¨åˆ°ä½œç”¨åŸŸä¸­
+			request.setAttribute("pageBean",pageBean);
 			request.setAttribute("list", list);
-			//3. Ìø×ªÒ³Ãæ
+			//3. è·³è½¬é¡µé¢
 			request.getRequestDispatcher("/Index/Class/list.jsp").forward(request, response);
 			
 		} catch (SQLException e) {

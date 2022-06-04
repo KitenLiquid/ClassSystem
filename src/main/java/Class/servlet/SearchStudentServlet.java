@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Class.bean.PageBean;
 import Class.bean.Student;
+import Class.bean.classxx;
 import Class.service.classService;
 import Class.service.classServiceImpl;
 
@@ -20,7 +22,7 @@ import Class.service.classServiceImpl;
 @WebServlet("/SearchStudentServlet")
 
 public class SearchStudentServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	 private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,18 +49,27 @@ public class SearchStudentServlet extends HttpServlet {
 			String ClassName=  request.getParameter("ClassName");
 			String Name=  request.getParameter("Name");
 			String Sex=  request.getParameter("Sex");
-			//2. ÕÒserviceÈ¥²éÑ¯
-			classService service = new classServiceImpl();
-			List<Student> Slist = service.Ssearch(ClassName, Name, Sex);
-			
-			System.out.println("listµÄ´óĞ¡ÊÇ£º"+Slist.size());
-			for (Student Student : Slist) {
-				System.out.println("Name="+Name);
+			int currentPage;
+
+			if (request.getParameter("currentPage") == null){
+			    currentPage = 1;
+			}else {
+			    /*è·å–å½“å‰é¡µ*/
+			    currentPage = Integer.parseInt(request.getParameter("currentPage"));
 			}
-			
+			//2. æ‰¾serviceå»æŸ¥è¯¢
+			classService service = new classServiceImpl();
+			PageBean<Student> pageBean = service.Ssearch(ClassName, Name, Sex,currentPage);
+			List<Student> Slist=(List<Student>)pageBean.getList();
+			System.out.println("listçš„å¤§å°æ˜¯ï¼š"+Slist.size());
+			System.out.println("currentPageï¼š"+currentPage);
+			System.out.println("TotalPageï¼š"+pageBean.getTotalPage());
+			request.setAttribute("pageBean", pageBean);
 			request.setAttribute("Slist", Slist);
 			
-			//3. Ìø×ª½çÃæ¡£ÁĞ±í½çÃæ
+			
+			
+			//3. è·³è½¬ç•Œé¢ã€‚åˆ—è¡¨ç•Œé¢
 			request.getRequestDispatcher("/Index/Class/Slist.jsp").forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
