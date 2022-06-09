@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/java/Class/dao/ClassDaoImpl.java=UTF-8
 encoding//src/main/java/Score/servlet/AddServlet.java=UTF-8
 encoding//src/main/java/Score/servlet/SEditServlet.java=UTF-8
 encoding//src/main/java/Score/servlet/SListServlet.java=UTF-8

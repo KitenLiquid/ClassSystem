@@ -52,14 +52,14 @@ public class ClassDaoImpl implements ClassDao{
 	public classxx queryByNumber(int ClassNumber) {
 		System.out.println(ClassNumber);
         try {
-            //JNDI DataSource数据源方式
+            //JNDI DataSource鏁版嵁婧愭柟寮�
             conn = JNDIUtils.getConnection();
-            //将sql发送给数据库进行编译
+            //灏唖ql鍙戦�佺粰鏁版嵁搴撹繘琛岀紪璇�
             String sql = "SELECT class.ClassName,class.ClassNumber,class.APnumber,teacher.TName,teacher.PhoneNumber FROM class,teacher where class.ClassNumber=teacher.ClassNumber and class.ClassNumber=?";
             stmt = conn.prepareStatement(sql);
-            //设置参数
+            //璁剧疆鍙傛暟
             stmt.setInt(1, ClassNumber);
-            //执行sql
+            //鎵цsql
             rs = stmt.executeQuery();
             if (rs.next()) {
                 classxx classxx = new classxx();
@@ -146,20 +146,20 @@ public class ClassDaoImpl implements ClassDao{
 		classaa existUser = null;
         try {
 			conn = JNDIUtils.getConnection();
-            String sql = "select * from class where ClassName=?"; //数据库编译时
-            stmt = conn.prepareStatement(sql);	//将sql发送给数据库进行编译
+            String sql = "select * from class where ClassName=?"; //鏁版嵁搴撶紪璇戞椂
+            stmt = conn.prepareStatement(sql);	//灏唖ql鍙戦�佺粰鏁版嵁搴撹繘琛岀紪璇�
             
-            //设置sql参数
+            //璁剧疆sql鍙傛暟
             String name=class1.getClassName();
             int number=class1.getClassNumber();
             int AP=class1.getAPnumber();
-            stmt.setString(1, class1.getClassName());	//传入数据值，不会作为关键字 --防止注入           
-            rs = stmt.executeQuery();			//执行sql                             
+            stmt.setString(1, class1.getClassName());	//浼犲叆鏁版嵁鍊硷紝涓嶄細浣滀负鍏抽敭瀛� --闃叉娉ㄥ叆           
+            rs = stmt.executeQuery();			//鎵цsql                             
             if(rs.next()) {
-            	System.out.println("该课程已经存在，请重新输入！");      
+            	System.out.println("璇ヨ绋嬪凡缁忓瓨鍦紝璇烽噸鏂拌緭鍏ワ紒");      
             }
-            else {//课程不存在
-				//添加课程，写入数据库
+            else {//璇剧▼涓嶅瓨鍦�
+				//娣诲姞璇剧▼锛屽啓鍏ユ暟鎹簱
             	stmt3=conn.createStatement();
             	sql="insert into class(ClassName,ClassNumber,APnumber) values('"+name+"','"+number+"','"+AP+"')";
             	int row=stmt3.executeUpdate(sql);
@@ -188,13 +188,13 @@ public class ClassDaoImpl implements ClassDao{
 	            String TName=teacher.getTName();
 			    int ClassNumber=teacher.getClassNumber();
 			    int PhoneNumber=teacher.getPhoneNumber();
-	            //设置参数
+	            //璁剧疆鍙傛暟
 	            stmt.setInt(1, ClassNumber);
-	            //执行sql
+	            //鎵цsql
 	            rs = stmt.executeQuery();
 	            if(rs.next()) {
 	            	
-	            	System.out.println("该课程老师已存在");
+	            	System.out.println("璇ヨ绋嬭�佸笀宸插瓨鍦�");
 	            }
 	            else {
 	            	stmt3=conn.createStatement();
@@ -219,17 +219,17 @@ public class ClassDaoImpl implements ClassDao{
 	@Override
 	public void delete(int number) {
 		try {
-            //JNDI DataSource数据源方式
+            //JNDI DataSource鏁版嵁婧愭柟寮�
             conn = JNDIUtils.getConnection();
-            //将sql发送给数据库进行编译
+            //灏唖ql鍙戦�佺粰鏁版嵁搴撹繘琛岀紪璇�
             String sql = "select * from  class  where ClassNumber=?";
             stmt = conn.prepareStatement(sql);
-            //设置参数
+            //璁剧疆鍙傛暟
             stmt.setInt(1, number);
-            //执行sql
+            //鎵цsql
             rs = stmt.executeQuery();
             if (rs.next()) {    
-                //存在课程，删除
+                //瀛樺湪璇剧▼锛屽垹闄�
                 stmt3=conn.createStatement();
             	sql="delete from class where ClassNumber='"+number+"'";
             	stmt3.executeUpdate(sql);
@@ -237,7 +237,7 @@ public class ClassDaoImpl implements ClassDao{
             	stmt3.close();
                
             }else {
-            	System.out.println("课程不存在或已删除");
+            	System.out.println("璇剧▼涓嶅瓨鍦ㄦ垨宸插垹闄�");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -250,17 +250,17 @@ public class ClassDaoImpl implements ClassDao{
 	@Override
 	public void delete1(int number) {
 		try {
-            //JNDI DataSource数据源方式
+            //JNDI DataSource鏁版嵁婧愭柟寮�
             conn = JNDIUtils.getConnection();
-            //将sql发送给数据库进行编译
+            //灏唖ql鍙戦�佺粰鏁版嵁搴撹繘琛岀紪璇�
             String sql = "select * from  teacher  where ClassNumber=?";
             stmt = conn.prepareStatement(sql);
-            //设置参数
+            //璁剧疆鍙傛暟
             stmt.setInt(1, number);
-            //执行sql
+            //鎵цsql
             rs = stmt.executeQuery();
             if (rs.next()) {    
-                //存在课程，删除
+                //瀛樺湪璇剧▼锛屽垹闄�
                 stmt3=conn.createStatement();
             	sql="delete from teacher where ClassNumber='"+number+"'";
             	stmt3.executeUpdate(sql);
@@ -268,7 +268,7 @@ public class ClassDaoImpl implements ClassDao{
             	stmt3.close();
                
             }else {
-            	System.out.println("该课程老师不存在或已删除");
+            	System.out.println("璇ヨ绋嬭�佸笀涓嶅瓨鍦ㄦ垨宸插垹闄�");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -306,15 +306,15 @@ public class ClassDaoImpl implements ClassDao{
 	public Student SqueryByNumber(int ClassNumber,int Number) {
 		System.out.println(Number);
         try {
-            //JNDI DataSource数据源方式
+            //JNDI DataSource鏁版嵁婧愭柟寮�
             conn = JNDIUtils.getConnection();
-            //将sql发送给数据库进行编译
+            //灏唖ql鍙戦�佺粰鏁版嵁搴撹繘琛岀紪璇�
             String sql = "select class.ClassNumber,ClassName,Name,student.Number,Sex,Age From class,student,stuclass where class.ClassNumber=stuclass.ClassNumber and stuclass.Number=student.Number and stuclass.Number=? and stuclass.ClassNumber=?";
             stmt = conn.prepareStatement(sql);
-            //设置参数
+            //璁剧疆鍙傛暟
             stmt.setInt(1, Number);
             stmt.setInt(2, ClassNumber);
-            //执行sql
+            //鎵цsql
             rs = stmt.executeQuery();
             if (rs.next()) {
                 Student stu = new Student();
@@ -407,21 +407,21 @@ public class ClassDaoImpl implements ClassDao{
 		Student existUser = null;
         try {
 			conn = JNDIUtils.getConnection();
-            String sql = "select * from student where Name=?"; //数据库编译时
-            stmt = conn.prepareStatement(sql);	//将sql发送给数据库进行编译
+            String sql = "select * from student where Name=?"; //鏁版嵁搴撶紪璇戞椂
+            stmt = conn.prepareStatement(sql);	//灏唖ql鍙戦�佺粰鏁版嵁搴撹繘琛岀紪璇�
             
-            //设置sql参数
+            //璁剧疆sql鍙傛暟
             String Name=student.getName();
             int Number=student.getNumber();
             int Age=student.getAge();
             String Sex=student.getSex();
-            stmt.setString(1, student.getName());	//传入数据值，不会作为关键字 --防止注入           
-            rs = stmt.executeQuery();			//执行sql                             
+            stmt.setString(1, student.getName());	//浼犲叆鏁版嵁鍊硷紝涓嶄細浣滀负鍏抽敭瀛� --闃叉娉ㄥ叆           
+            rs = stmt.executeQuery();			//鎵цsql                             
             if(rs.next()) {
-            	System.out.println("该学生已经存在，请重新输入！");      
+            	System.out.println("璇ュ鐢熷凡缁忓瓨鍦紝璇烽噸鏂拌緭鍏ワ紒");      
             }
-            else {//学生不存在
-				//添加学生，写入数据库
+            else {//瀛︾敓涓嶅瓨鍦�
+				//娣诲姞瀛︾敓锛屽啓鍏ユ暟鎹簱
             	stmt3=conn.createStatement();
             	sql="insert into student(Name,Number,Sex,Age) values('"+Name+"','"+Number+"','"+Sex+"','"+Age+"')";
             	int row=stmt3.executeUpdate(sql);
@@ -449,18 +449,24 @@ public class ClassDaoImpl implements ClassDao{
 			  //JNDI DataSource数据源方式
 	            conn = JNDIUtils.getConnection();
 	            //将sql发送给数据库进行编译
-	            String sql = "select * from  stuclass  where Number=?";
+	            String sql = "select * from  stuclass  where Number=? and ClassNumber=?";
 	            stmt = conn.prepareStatement(sql);
 	            //设置参数
 	            stmt.setInt(1, Number);
+	            stmt.setInt(2, ClassNumber);
 	            //执行sql
 	            rs = stmt.executeQuery();
+	            if(rs.next()) {
+	            	System.out.println("该学号课程已经存在，请重新输入！");      
+	            }
+	            else {
 	            stmt3=conn.createStatement();
 	            sql="insert into stuclass(Number,ClassNumber) values('"+Number+"','"+ClassNumber+"')";
 	            int row=stmt3.executeUpdate(sql);
 	            System.out.println("q"); 
 	            existUser=new Student(Number,ClassNumber); 
 	            stmt3.close();
+	            }
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -476,17 +482,17 @@ public class ClassDaoImpl implements ClassDao{
 	public void delete3(int number, int ClassNumber) {
 		// TODO Auto-generated method stub
 				try {
-		            //JNDI DataSource数据源方式
+		            //JNDI DataSource鏁版嵁婧愭柟寮�
 		            conn = JNDIUtils.getConnection();
-		            //将sql发送给数据库进行编译
+		            //灏唖ql鍙戦�佺粰鏁版嵁搴撹繘琛岀紪璇�
 		            String sql = "select * from  stuclass  where Number=?";
 		            stmt = conn.prepareStatement(sql);
-		            //设置参数
+		            //璁剧疆鍙傛暟
 		            stmt.setInt(1, number);
-		            //执行sql
+		            //鎵цsql
 		            rs = stmt.executeQuery();
 		            if (rs.next()) {    
-		                //存在学号课程号，删除
+		                //瀛樺湪瀛﹀彿璇剧▼鍙凤紝鍒犻櫎
 		                stmt3=conn.createStatement();
 		            	sql="delete from stuclass where Number='"+number+"'and ClassNumber='"+ClassNumber+"'";
 		            	stmt3.executeUpdate(sql);
@@ -503,12 +509,12 @@ public class ClassDaoImpl implements ClassDao{
 	@Override
 	public int findCount() throws SQLException {
 		try {
-            //JNDI DataSource数据源方式
+            //JNDI DataSource鏁版嵁婧愭柟寮�
             conn = JNDIUtils.getConnection();
-            //将sql发送给数据库进行编译
+            //灏唖ql鍙戦�佺粰鏁版嵁搴撹繘琛岀紪璇�
             String sql = "select count(*) FROM class,teacher where class.ClassNumber=teacher.ClassNumber"; 
             stmt = conn.prepareStatement(sql);
-            //执行sql
+            //鎵цsql
             rs = stmt.executeQuery();
            rs.next();
            int result =rs.getInt(1);
@@ -524,12 +530,12 @@ public class ClassDaoImpl implements ClassDao{
 	@Override
 	public int SfindCount() throws SQLException {
 		try {
-            //JNDI DataSource数据源方式
+            //JNDI DataSource鏁版嵁婧愭柟寮�
             conn = JNDIUtils.getConnection();
-            //将sql发送给数据库进行编译
+            //灏唖ql鍙戦�佺粰鏁版嵁搴撹繘琛岀紪璇�
             String sql = "select count(*) From class,student,stuclass where class.ClassNumber=stuclass.ClassNumber and stuclass.Number=student.Number"; 
             stmt = conn.prepareStatement(sql);
-            //执行sql
+            //鎵цsql
             rs = stmt.executeQuery();
            rs.next();
            int result =rs.getInt(1);
